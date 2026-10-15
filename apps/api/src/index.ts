@@ -1,3 +1,4 @@
+/// <reference path="../worker-configuration.d.ts" />
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
@@ -7,6 +8,7 @@ import { authRoutes } from "./modules/auth/auth.routes";
 import { AuthError } from "./modules/auth/auth.errors";
 import type { AuthContext } from "./modules/auth/auth.types";
 
+// Type used by Hono - CloudflareBindings comes from worker-configuration.d.ts
 const app = new Hono<{ Bindings: CloudflareBindings; Variables: AuthContext }>();
 
 // Middleware
@@ -14,7 +16,13 @@ app.use("*", logger());
 app.use(
   "*",
   cors({
-    origin: process.env.ALLOWED_ORIGIN || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "http://10.97.54.86:3000",
+      "http://10.97.54.86:19000",
+      "exp://10.97.54.86:19000",
+    ],
     credentials: true,
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],

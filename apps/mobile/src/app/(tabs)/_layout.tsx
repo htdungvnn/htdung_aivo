@@ -1,8 +1,10 @@
 import { Tabs } from "expo-router";
 import { Text, View } from "react-native";
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "@/localization/locale-provider";
 
 // Tab icons
-function TabIcon({ name, focused }: { name: string; focused: boolean }) {
+function TabIcon({ name }: { name: string }) {
   const icons: Record<string, string> = {
     home: "🏠",
     workouts: "💪",
@@ -19,15 +21,18 @@ function TabIcon({ name, focused }: { name: string; focused: boolean }) {
 }
 
 export default function TabsLayout() {
+  const theme = useTheme();
+  const { t } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#087A55",
-        tabBarInactiveTintColor: "#667085",
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.foregroundMuted,
         tabBarStyle: {
-          backgroundColor: "#FFFFFF",
-          borderTopColor: "#E5EAE7",
+          backgroundColor: theme.surface,
+          borderTopColor: theme.border,
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
@@ -41,36 +46,36 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Home",
-          tabBarIcon: ({ focused }) => <TabIcon name="home" focused={focused} />,
+          title: t("tabs.home"),
+          tabBarIcon: () => <TabIcon name="home" />,
         }}
       />
       <Tabs.Screen
         name="workouts"
         options={{
-          title: "Workouts",
-          tabBarIcon: ({ focused }) => <TabIcon name="workouts" focused={focused} />,
+          title: t("tabs.workouts"),
+          tabBarIcon: () => <TabIcon name="workouts" />,
         }}
       />
       <Tabs.Screen
         name="nutrition"
         options={{
-          title: "Nutrition",
-          tabBarIcon: ({ focused }) => <TabIcon name="nutrition" focused={focused} />,
+          title: t("tabs.nutrition"),
+          tabBarIcon: () => <TabIcon name="nutrition" />,
         }}
       />
       <Tabs.Screen
         name="coach"
         options={{
-          title: "Coach",
-          tabBarIcon: ({ focused }) => <TabIcon name="coach" focused={focused} />,
+          title: t("tabs.coach"),
+          tabBarIcon: () => <TabIcon name="coach" />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
-          tabBarIcon: ({ focused }) => <TabIcon name="settings" focused={focused} />,
+          title: t("tabs.settings"),
+          tabBarIcon: () => <TabIcon name="settings" />,
         }}
       />
     </Tabs>

@@ -9,15 +9,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
-const COLORS = {
-  primary: "#087A55",
-  background: "#FCFDFB",
-  surface: "#FFFFFF",
-  foreground: "#101828",
-  muted: "#667085",
-  border: "#E5EAE7",
-  mint: "#EAF7F0",
-};
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "@/localization/locale-provider";
 
 interface Message {
   id: number;
@@ -27,6 +20,8 @@ interface Message {
 }
 
 export default function CoachTab() {
+  const theme = useTheme();
+  const { t } = useTranslation();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -70,15 +65,15 @@ export default function CoachTab() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <View style={styles.aiAvatar}>
+          <View style={[styles.aiAvatar, { backgroundColor: theme.aiCoachSubtle }]}>
             <Text style={styles.aiAvatarText}>🤖</Text>
           </View>
           <View>
-            <Text style={styles.title}>AI Coach</Text>
-            <Text style={styles.subtitle}>Always here to help</Text>
+            <Text style={[styles.title, { color: theme.foreground }]}>{t("tabs.coach")}</Text>
+            <Text style={[styles.subtitle, { color: theme.foregroundMuted }]}>Always here to help</Text>
           </View>
         </View>
 
@@ -87,10 +82,10 @@ export default function CoachTab() {
           {suggestions.map((suggestion, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.suggestionChip}
+              style={[styles.suggestionChip, { backgroundColor: theme.aiCoachSubtle }]}
               onPress={() => setMessage(suggestion)}
             >
-              <Text style={styles.suggestionText}>{suggestion}</Text>
+              <Text style={[styles.suggestionText, { color: theme.aiCoach }]}>{suggestion}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -102,41 +97,58 @@ export default function CoachTab() {
               key={msg.id}
               style={[
                 styles.messageBubble,
-                msg.isUser ? styles.userBubble : styles.aiBubble,
+                msg.isUser ? [styles.userBubble, { backgroundColor: theme.primary }] : 
+                  [styles.aiBubble, { backgroundColor: theme.surface, borderColor: theme.border }],
               ]}
             >
               {!msg.isUser && (
                 <View style={styles.aiBubbleHeader}>
                   <Text style={styles.aiBubbleEmoji}>🤖</Text>
-                  <Text style={styles.aiBubbleName}>AI Coach</Text>
+                  <Text style={[styles.aiBubbleName, { color: theme.aiCoach }]}>AI Coach</Text>
                 </View>
               )}
               <Text
                 style={[
                   styles.messageText,
-                  msg.isUser ? styles.userText : styles.aiText,
+                  msg.isUser ? styles.userText : [styles.aiText, { color: theme.foreground }],
                 ]}
               >
                 {msg.text}
               </Text>
-              <Text style={styles.messageTime}>{msg.time}</Text>
+              <Text style={[styles.messageTime, { color: theme.foregroundMuted }]}>{msg.time}</Text>
             </View>
           ))}
         </View>
       </ScrollView>
 
       {/* Input Area */}
-      <View style={styles.inputContainer}>
+      <View style={[
+        styles.inputContainer, 
+        { 
+          backgroundColor: theme.surface, 
+          borderTopColor: theme.border 
+        }
+      ]}>
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              backgroundColor: theme.background,
+              color: theme.foreground,
+            },
+          ]}
           placeholder="Ask your AI Coach..."
-          placeholderTextColor={COLORS.muted}
+          placeholderTextColor={theme.foregroundMuted}
           value={message}
           onChangeText={setMessage}
           multiline
         />
         <TouchableOpacity
-          style={[styles.sendButton, !message.trim() && styles.sendButtonDisabled]}
+          style={[
+            styles.sendButton, 
+            { backgroundColor: theme.primary },
+            !message.trim() && styles.sendButtonDisabled,
+          ]}
           onPress={handleSend}
           disabled={!message.trim()}
         >
@@ -150,7 +162,6 @@ export default function CoachTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   scrollContent: {
     padding: 20,
@@ -166,7 +177,6 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: COLORS.mint,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -176,11 +186,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: COLORS.foreground,
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.muted,
   },
   quickActions: {
     flexDirection: "row",
@@ -189,14 +197,12 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   suggestionChip: {
-    backgroundColor: COLORS.mint,
     paddingHorizontal: 14,
     paddingVertical: 10,
     borderRadius: 20,
   },
   suggestionText: {
     fontSize: 13,
-    color: COLORS.primary,
     fontWeight: "500",
   },
   messagesContainer: {
@@ -208,16 +214,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   userBubble: {
-    backgroundColor: COLORS.primary,
     alignSelf: "flex-end",
     borderBottomRightRadius: 4,
   },
   aiBubble: {
-    backgroundColor: COLORS.surface,
     alignSelf: "flex-start",
     borderBottomLeftRadius: 4,
     borderWidth: 1,
-    borderColor: COLORS.border,
   },
   aiBubbleHeader: {
     flexDirection: "row",
@@ -231,7 +234,6 @@ const styles = StyleSheet.create({
   aiBubbleName: {
     fontSize: 12,
     fontWeight: "600",
-    color: COLORS.primary,
   },
   messageText: {
     fontSize: 15,
@@ -240,12 +242,9 @@ const styles = StyleSheet.create({
   userText: {
     color: "#FFFFFF",
   },
-  aiText: {
-    color: COLORS.foreground,
-  },
+  aiText: {},
   messageTime: {
     fontSize: 10,
-    color: COLORS.muted,
     marginTop: 6,
     alignSelf: "flex-end",
   },
@@ -257,22 +256,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
     padding: 16,
-    backgroundColor: COLORS.surface,
     borderTopWidth: 1,
-    borderTopColor: COLORS.border,
   },
   input: {
     flex: 1,
-    backgroundColor: COLORS.background,
     borderRadius: 24,
     paddingHorizontal: 20,
     paddingVertical: 12,
     fontSize: 16,
-    color: COLORS.foreground,
     maxHeight: 100,
   },
   sendButton: {
-    backgroundColor: COLORS.primary,
     borderRadius: 24,
     paddingHorizontal: 20,
     justifyContent: "center",

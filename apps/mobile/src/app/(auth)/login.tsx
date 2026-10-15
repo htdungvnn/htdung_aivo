@@ -13,73 +13,136 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 import { authClient } from "@/features/auth/services";
-
-// AIVO Brand Colors
-const COLORS = {
-  primary: "#087A55",
-  primaryHover: "#066847",
-  background: "#FCFDFB",
-  surface: "#FFFFFF",
-  foreground: "#101828",
-  muted: "#667085",
-  border: "#E5EAE7",
-  danger: "#B42318",
-  mint: "#EAF7F0",
-};
+import { useAuth } from "@/features/auth/contexts/auth-context";
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "@/localization/locale-provider";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const theme = useTheme();
+  const { t } = useTranslation();
+  const { refreshUser } = useAuth();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
 
   const validateEmail = (emailValue: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(emailValue);
   };
 
+  // Handle OAuth callback from deep link
+  useEffect(() => {
+    const handleDeepLink = async (url: string) => {
+      console.log("Deep link received:", url);
+      
+      const parsed = Linking.parse(url);
+      
+      if (parsed.queryParams?.token && parsed.queryParams?.userId) {
+        const token = parsed.queryParams.token as string;
+        const userId = parsed.queryParams.userId as string;
+        
+        console.log("OAuth success - storing token");
+        
+        // Store token and userId
+        await authClient.setToken(token);
+        await authClient.setUserId(userId);
+        
+        // Refresh user and navigate
+        await refreshUser();
+        router.replace("/(tabs)/home");
+      }
+    };
+
+    // Check if app was opened via deep link
+    Linking.getInitialURL().then((url) => {
+      if (url && url.includes("aivo://auth/callback")) {
+        handleDeepLink(url);
+      }
+    });
+
+    // Listen for deep links while on this screen
+    const subscription = Linking.addEventListener("url", (event) => {
+      if (event.url.includes("aivo://auth/callback")) {
+        handleDeepLink(event.url);
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [router, refreshUser]);
+
   const handleContinueWithEmail = useCallback(async () => {
     setError(null);
 
     if (!email.trim()) {
-      setError("Enter a valid email address.");
+      setError(t("validation.email.required"));
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Enter a valid email address.");
+      setError(t("validation.email.invalid"));
       return;
     }
 
-    setLoading(true);
+    setEmailLoading(true);
 
     try {
       const response = await authClient.requestOtp(email);
-      // Navigate to OTP verification
       router.push({
         pathname: "/(auth)/verify-email",
         params: { email, challengeId: response.challengeId },
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send code");
+      setError(err instanceof Error ? err.message : t("errors.network"));
     } finally {
-      setLoading(false);
+      setEmailLoading(false);
     }
-  }, [email, router]);
+  }, [email, router, t]);
 
-  const handleOAuth = async (provider: "google" | "facebook") => {
+  const handleOAuth = useCallback(async (provider: "google" | "facebook") => {
+    setError(null);
+    setOauthLoading(true);
     try {
-      await authClient.startOAuth(provider);
-      // OAuth will handle the redirect
-    } catch {
-      setError("Failed to start sign-in");
+      const authUrl = await authClient.startOAuth(provider);
+      const result = await WebBrowser.openAuthSessionAsync(authUrl);
+      
+      // Check if result has url (success case)
+      if (typeof result === "object" && "url" in result && (result as { url?: string }).url) {
+        console.log("OAuth result URL:", (result as { url: string }).url);
+        const parsed = Linking.parse((result as { url: string }).url);
+        
+        if (parsed.queryParams?.token && parsed.queryParams?.userId) {
+          const token = parsed.queryParams.token as string;
+          const userId = parsed.queryParams.userId as string;
+          
+          // Store token
+          await authClient.setToken(token);
+          await authClient.setUserId(userId);
+          
+          // Refresh user and navigate
+          await refreshUser();
+          router.replace("/(tabs)/home");
+          return;
+        }
+      }
+      
+      console.log("No callback URL returned, waiting for deep link...");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("errors.oauth"));
+    } finally {
+      setOauthLoading(false);
     }
-  };
+  }, [router, refreshUser, t]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardView}
@@ -90,90 +153,128 @@ export default function LoginScreen() {
         >
           {/* Logo */}
           <View style={styles.logoContainer}>
-            <View style={styles.logo}>
-              <Text style={styles.logoText}>AIVO</Text>
+            <View style={[styles.logo, { borderColor: theme.primary }]}>
+              <Text style={[styles.logoText, { color: theme.primary }]}>AIVO</Text>
             </View>
           </View>
 
           {/* Content Card */}
-          <View style={styles.card}>
-            <Text style={styles.eyebrow}>Welcome back</Text>
-            <Text style={styles.title}>Continue your journey with AIVO</Text>
-            <Text style={styles.description}>
-              Sign in to access your personalized workouts, nutrition plan,
-              progress, and AI Coach.
+          <View style={[styles.card, { backgroundColor: theme.surface }]}>
+            <Text style={styles.eyebrow}>{t("auth.login.eyebrow")}</Text>
+            <Text style={[styles.title, { color: theme.foreground }]}>
+              {t("auth.login.title")}
+            </Text>
+            <Text style={[styles.description, { color: theme.foregroundMuted }]}>
+              {t("auth.login.description")}
             </Text>
 
             {/* OAuth Buttons */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                style={styles.oauthButton}
+                style={[
+                  styles.oauthButton,
+                  { 
+                    borderColor: theme.borderStrong,
+                    backgroundColor: theme.surface,
+                  },
+                  oauthLoading && styles.oauthButtonDisabled,
+                ]}
                 onPress={() => handleOAuth("google")}
-                disabled={loading}
+                disabled={oauthLoading}
               >
-                <GoogleIcon />
-                <Text style={styles.oauthButtonText}>Continue with Google</Text>
+                {oauthLoading ? (
+                  <ActivityIndicator size="small" color={theme.foreground} />
+                ) : (
+                  <GoogleIcon />
+                )}
+                <Text style={[styles.oauthButtonText, { color: theme.foreground }]}>
+                  {t("auth.login.continueWithGoogle")}
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.oauthButton, styles.facebookButton]}
+                style={[
+                  styles.oauthButton,
+                  styles.facebookButton,
+                  oauthLoading && styles.oauthButtonDisabled,
+                ]}
                 onPress={() => handleOAuth("facebook")}
-                disabled={loading}
+                disabled={oauthLoading}
               >
-                <FacebookIcon />
+                {oauthLoading ? (
+                  <ActivityIndicator size="small" color="#FFFFFF" />
+                ) : (
+                  <FacebookIcon />
+                )}
                 <Text style={[styles.oauthButtonText, styles.facebookButtonText]}>
-                  Continue with Facebook
+                  {t("auth.login.continueWithFacebook")}
                 </Text>
               </TouchableOpacity>
             </View>
 
             {/* Divider */}
             <View style={styles.divider}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>or continue with email</Text>
-              <View style={styles.dividerLine} />
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
+              <Text style={[styles.dividerText, { color: theme.foregroundMuted }]}>
+                {t("auth.login.orContinueWithEmail")}
+              </Text>
+              <View style={[styles.dividerLine, { backgroundColor: theme.border }]} />
             </View>
 
             {/* Email Input */}
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Email address</Text>
+              <Text style={[styles.inputLabel, { color: theme.foreground }]}>
+                {t("auth.login.emailLabel")}
+              </Text>
               <TextInput
-                style={[styles.input, error && styles.inputError]}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: error ? theme.danger : theme.borderStrong,
+                    color: theme.foreground,
+                    backgroundColor: theme.surface,
+                  },
+                ]}
                 value={email}
                 onChangeText={(text) => {
                   setEmail(text);
                   setError(null);
                 }}
-                placeholder="you@example.com"
-                placeholderTextColor={COLORS.muted}
+                placeholder={t("auth.login.emailPlaceholder")}
+                placeholderTextColor={theme.foregroundSubtle}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect={false}
               />
-              {error && <Text style={styles.errorText}>{error}</Text>}
+              {error && (
+                <Text style={[styles.errorText, { color: theme.danger }]}>{error}</Text>
+              )}
             </View>
 
             {/* Continue Button */}
             <TouchableOpacity
               style={[
                 styles.primaryButton,
-                (!email || loading) && styles.primaryButtonDisabled,
+                { backgroundColor: theme.primary },
+                (!email || emailLoading) && styles.primaryButtonDisabled,
               ]}
               onPress={handleContinueWithEmail}
-              disabled={!email || loading}
+              disabled={!email || emailLoading}
             >
-              {loading ? (
-                <ActivityIndicator color={COLORS.surface} />
+              {emailLoading ? (
+                <ActivityIndicator color={theme.onPrimary} />
               ) : (
-                <Text style={styles.primaryButtonText}>Continue with Email</Text>
+                <Text style={[styles.primaryButtonText, { color: theme.onPrimary }]}>
+                  {t("auth.login.continueWithEmail")}
+                </Text>
               )}
             </TouchableOpacity>
           </View>
 
           {/* Legal Text */}
-          <Text style={styles.legalText}>
-            By continuing, you agree to AIVO&apos;s Terms of Service and acknowledge the Privacy Policy.
+          <Text style={[styles.legalText, { color: theme.foregroundMuted }]}>
+            {t("auth.login.legalText")}
           </Text>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -230,7 +331,6 @@ const iconStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   keyboardView: {
     flex: 1,
@@ -249,20 +349,17 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 28,
     borderWidth: 2,
-    borderColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
   logoText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: COLORS.primary,
   },
   card: {
-    backgroundColor: COLORS.surface,
     borderRadius: 24,
     padding: 24,
-    shadowColor: COLORS.primary,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 12,
@@ -271,20 +368,18 @@ const styles = StyleSheet.create({
   eyebrow: {
     fontSize: 12,
     fontWeight: "600",
-    color: COLORS.muted,
     textTransform: "uppercase",
     letterSpacing: 1,
     marginBottom: 8,
+    opacity: 0.7,
   },
   title: {
     fontSize: 24,
     fontWeight: "600",
-    color: COLORS.foreground,
     marginBottom: 8,
   },
   description: {
     fontSize: 14,
-    color: COLORS.muted,
     lineHeight: 20,
     marginBottom: 24,
   },
@@ -300,13 +395,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: COLORS.border,
-    backgroundColor: COLORS.surface,
   },
   oauthButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: COLORS.foreground,
+  },
+  oauthButtonDisabled: {
+    opacity: 0.5,
   },
   facebookButton: {
     backgroundColor: "#1877F2",
@@ -324,11 +419,9 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: COLORS.border,
   },
   dividerText: {
     fontSize: 12,
-    color: COLORS.muted,
   },
   inputContainer: {
     marginBottom: 16,
@@ -336,7 +429,6 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 14,
     fontWeight: "500",
-    color: COLORS.foreground,
     marginBottom: 8,
   },
   input: {
@@ -344,21 +436,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: COLORS.border,
     fontSize: 16,
-    color: COLORS.foreground,
-    backgroundColor: COLORS.surface,
-  },
-  inputError: {
-    borderColor: COLORS.danger,
   },
   errorText: {
     fontSize: 12,
-    color: COLORS.danger,
     marginTop: 6,
   },
   primaryButton: {
-    backgroundColor: COLORS.primary,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: "center",
@@ -369,17 +453,14 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.surface,
   },
   legalText: {
     fontSize: 11,
-    color: COLORS.muted,
     textAlign: "center",
     marginTop: 20,
     lineHeight: 16,
   },
   link: {
-    color: COLORS.primary,
     textDecorationLine: "underline",
   },
 });

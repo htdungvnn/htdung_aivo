@@ -9,25 +9,38 @@
     "close": "Đóng",
     "edit": "Chỉnh sửa",
     "done": "Hoàn tất",
-    "submit": "Gửi",
-    "skip": "Bỏ qua",
     "delete": "Xóa",
-    "confirm": "Xác nhận"
+    "confirm": "Xác nhận",
+    "skip": "Bỏ qua",
+    "submit": "Gửi"
   },
   "status": {
     "loading": "Đang tải...",
     "saving": "Đang lưu...",
     "saved": "Đã lưu",
-    "offline": "Bạn đang ngoại tuyến",
-    "error": "Đã xảy ra lỗi",
-    "success": "Thành công"
+    "offline": "Bạn đang ngoại tuyến"
   },
-  "common": {
-    "today": "Hôm nay",
-    "yesterday": "Hôm qua",
-    "tomorrow": "Ngày mai",
-    "viewAll": "Xem tất cả",
-    "seeMore": "Xem thêm",
-    "showLess": "Thu gọn"
+  "validation": {
+    "email": {
+      "required": "Email là bắt buộc.",
+      "invalid": "Nhập địa chỉ email hợp lệ."
+    },
+    "password": {
+      "required": "Mật khẩu là bắt buộc.",
+      "minLength": "Mật khẩu phải có ít nhất {{min}} ký tự."
+    },
+    "required": "Trường này là bắt buộc."
+  },
+  "errors": {
+    "network": "Lỗi mạng. Vui lòng kiểm tra kết nối.",
+    "oauth": "Không thể bắt đầu đăng nhập. Vui lòng thử lại.",
+    "unknown": "Đã xảy ra lỗi. Vui lòng thử lại."
+  },
+  "tabs": {
+    "home": "Trang chủ",
+    "workouts": "Bài tập",
+    "nutrition": "Dinh dưỡng",
+    "coach": "Huấn luyện viên",
+    "settings": "Cài đặt"
   }
 }

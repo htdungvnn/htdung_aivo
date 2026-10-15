@@ -10,73 +10,79 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-
-// AIVO Brand Colors
-const COLORS = {
-  primary: "#087A55",
-  primaryHover: "#066847",
-  background: "#FCFDFB",
-  surface: "#FFFFFF",
-  foreground: "#101828",
-  muted: "#667085",
-  border: "#E5EAE7",
-  mint: "#EAF7F0",
-};
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "@/localization/locale-provider";
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
         {/* Logo */}
         <View style={styles.logoContainer}>
-          <View style={styles.logo}>
+          <View style={[styles.logo, { backgroundColor: theme.primary }]}>
             <Text style={styles.logoText}>A</Text>
           </View>
-          <Text style={styles.brandName}>AIVO</Text>
+          <Text style={[styles.brandName, { color: theme.primary }]}>
+            {t("welcome.brand")}
+          </Text>
         </View>
 
         {/* Hero Visual */}
         <View style={styles.heroVisual}>
-          <View style={styles.heroCard}>
+          <View style={[styles.heroCard, { 
+            backgroundColor: theme.surface,
+          }]}>
             <View style={styles.heroCardInner}>
               {/* Dashboard Preview Mock */}
               <View style={styles.previewHeader}>
-                <Text style={styles.previewGreeting}>Good morning!</Text>
+                <Text style={[styles.previewGreeting, { color: theme.foregroundMuted }]}>
+                  {t("welcome.hero.greeting.morning")}
+                </Text>
               </View>
 
               {/* Stats Row */}
               <View style={styles.statsRow}>
-                <View style={[styles.statBox, { backgroundColor: COLORS.mint }]}>
-                  <Text style={[styles.statValue, { color: COLORS.primary }]}>
+                <View style={[styles.statBox, { backgroundColor: theme.nutritionSubtle }]}>
+                  <Text style={[styles.statValue, { color: theme.nutrition }]}>
                     1,847
                   </Text>
-                  <Text style={styles.statLabel}>Calories</Text>
+                  <Text style={[styles.statLabel, { color: theme.foregroundMuted }]}>
+                    {t("welcome.hero.stats.calories")}
+                  </Text>
                 </View>
-                <View style={[styles.statBox, { backgroundColor: "#FFF7ED" }]}>
-                  <Text style={[styles.statValue, { color: "#F97316" }]}>142g</Text>
-                  <Text style={styles.statLabel}>Protein</Text>
+                <View style={[styles.statBox, { backgroundColor: theme.primarySubtle }]}>
+                  <Text style={[styles.statValue, { color: theme.primary }]}>142g</Text>
+                  <Text style={[styles.statLabel, { color: theme.foregroundMuted }]}>
+                    {t("welcome.hero.stats.protein")}
+                  </Text>
                 </View>
-                <View style={[styles.statBox, { backgroundColor: "#F0F4FF" }]}>
-                  <Text style={[styles.statValue, { color: "#2563EB" }]}>4</Text>
-                  <Text style={styles.statLabel}>Workouts</Text>
+                <View style={[styles.statBox, { backgroundColor: theme.progressSubtle }]}>
+                  <Text style={[styles.statValue, { color: theme.progress }]}>4</Text>
+                  <Text style={[styles.statLabel, { color: theme.foregroundMuted }]}>
+                    {t("welcome.hero.stats.workouts")}
+                  </Text>
                 </View>
               </View>
 
               {/* Workout Preview */}
-              <View style={styles.workoutPreview}>
-                <Text style={styles.workoutLabel}>Today&apos;s Workout</Text>
+              <View style={[styles.workoutPreview, { backgroundColor: theme.workoutSubtle }]}>
+                <Text style={[styles.workoutLabel, { color: theme.foregroundMuted }]}>
+                  {t("welcome.hero.todayWorkout")}
+                </Text>
                 <View style={styles.workoutRow}>
                   <View>
-                    <Text style={styles.workoutTitle}>Upper Body</Text>
-                    <Text style={styles.workoutSubtitle}>45 min</Text>
+                    <Text style={[styles.workoutTitle, { color: theme.foreground }]}>Upper Body</Text>
+                    <Text style={[styles.workoutSubtitle, { color: theme.foregroundMuted }]}>45 min</Text>
                   </View>
-                  <View style={styles.startButton}>
-                    <Text style={styles.startButtonText}>Start</Text>
+                  <View style={[styles.startButton, { backgroundColor: theme.workout }]}>
+                    <Text style={styles.startButtonText}>{t("welcome.hero.startButton")}</Text>
                   </View>
                 </View>
               </View>
@@ -84,59 +90,73 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Decorative Elements */}
-          <View style={styles.decorCircle1} />
-          <View style={styles.decorCircle2} />
+          <View style={[styles.decorCircle1, { backgroundColor: theme.primarySubtle }]} />
+          <View style={[styles.decorCircle2, { backgroundColor: theme.primarySubtle }]} />
         </View>
 
         {/* Content */}
         <View style={styles.content}>
-          <Text style={styles.heading}>A Healthier, Happier You</Text>
-          <Text style={styles.description}>
-            Personalized workouts, practical nutrition tracking, and AI guidance
-            in one simple experience.
+          <Text style={[styles.heading, { color: theme.foreground }]}>
+            {t("welcome.content.heading")}
+          </Text>
+          <Text style={[styles.description, { color: theme.foregroundMuted }]}>
+            {t("welcome.content.description")}
           </Text>
         </View>
 
         {/* Actions */}
         <View style={styles.actions}>
           <TouchableOpacity
-            style={styles.primaryButton}
+            style={[styles.primaryButton, { backgroundColor: theme.primary }]}
             onPress={() => router.push("/login")}
             activeOpacity={0.8}
           >
-            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <Text style={[styles.primaryButtonText, { color: theme.onPrimary }]}>
+              {t("welcome.actions.getStarted")}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.secondaryButton}
+            style={[
+              styles.secondaryButton,
+              {
+                borderColor: theme.border,
+              },
+            ]}
             onPress={() => router.push("/login")}
             activeOpacity={0.8}
           >
-            <Text style={styles.secondaryButtonText}>
-              I already have an account
+            <Text style={[styles.secondaryButtonText, { color: theme.foreground }]}>
+              {t("welcome.actions.alreadyHaveAccount")}
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Features Preview */}
-        <View style={styles.featuresPreview}>
+        <View style={[styles.featuresPreview, { borderTopColor: theme.border }]}>
           <View style={styles.featureItem}>
-            <View style={[styles.featureIcon, { backgroundColor: COLORS.mint }]}>
+            <View style={[styles.featureIcon, { backgroundColor: theme.workoutSubtle }]}>
               <Text style={styles.featureEmoji}>💪</Text>
             </View>
-            <Text style={styles.featureText}>Personalized Workouts</Text>
+            <Text style={[styles.featureText, { color: theme.foregroundMuted }]}>
+              {t("welcome.features.personalizedWorkouts")}
+            </Text>
           </View>
           <View style={styles.featureItem}>
-            <View style={[styles.featureIcon, { backgroundColor: "#FFF7ED" }]}>
+            <View style={[styles.featureIcon, { backgroundColor: theme.nutritionSubtle }]}>
               <Text style={styles.featureEmoji}>🥗</Text>
             </View>
-            <Text style={styles.featureText}>Nutrition Tracking</Text>
+            <Text style={[styles.featureText, { color: theme.foregroundMuted }]}>
+              {t("welcome.features.nutritionTracking")}
+            </Text>
           </View>
           <View style={styles.featureItem}>
-            <View style={[styles.featureIcon, { backgroundColor: "#F0F4FF" }]}>
+            <View style={[styles.featureIcon, { backgroundColor: theme.aiCoachSubtle }]}>
               <Text style={styles.featureEmoji}>🤖</Text>
             </View>
-            <Text style={styles.featureText}>AI Coach</Text>
+            <Text style={[styles.featureText, { color: theme.foregroundMuted }]}>
+              {t("welcome.features.aiCoach")}
+            </Text>
           </View>
         </View>
       </ScrollView>
@@ -147,7 +167,6 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   scrollContent: {
     flexGrow: 1,
@@ -163,7 +182,6 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 16,
-    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 12,
@@ -176,7 +194,6 @@ const styles = StyleSheet.create({
   brandName: {
     fontSize: 24,
     fontWeight: "bold",
-    color: COLORS.primary,
     letterSpacing: 2,
   },
   heroVisual: {
@@ -184,10 +201,8 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   heroCard: {
-    backgroundColor: COLORS.surface,
     borderRadius: 24,
     padding: 20,
-    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.1,
     shadowRadius: 24,
@@ -201,7 +216,6 @@ const styles = StyleSheet.create({
   previewGreeting: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.muted,
   },
   statsRow: {
     flexDirection: "row",
@@ -220,18 +234,15 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 10,
-    color: COLORS.muted,
     marginTop: 2,
   },
   workoutPreview: {
-    backgroundColor: COLORS.mint,
     padding: 16,
     borderRadius: 12,
   },
   workoutLabel: {
     fontSize: 10,
     fontWeight: "600",
-    color: COLORS.muted,
     textTransform: "uppercase",
     letterSpacing: 0.5,
     marginBottom: 8,
@@ -244,14 +255,11 @@ const styles = StyleSheet.create({
   workoutTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: COLORS.foreground,
   },
   workoutSubtitle: {
     fontSize: 12,
-    color: COLORS.muted,
   },
   startButton: {
-    backgroundColor: COLORS.primary,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -268,7 +276,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: COLORS.mint,
     opacity: 0.5,
   },
   decorCircle2: {
@@ -278,7 +285,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: COLORS.mint,
     opacity: 0.3,
   },
   content: {
@@ -288,14 +294,12 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 32,
     fontWeight: "bold",
-    color: COLORS.foreground,
     textAlign: "center",
     marginBottom: 12,
     lineHeight: 40,
   },
   description: {
     fontSize: 16,
-    color: COLORS.muted,
     textAlign: "center",
     lineHeight: 24,
   },
@@ -304,7 +308,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   primaryButton: {
-    backgroundColor: COLORS.primary,
     paddingVertical: 16,
     borderRadius: 14,
     alignItems: "center",
@@ -312,26 +315,22 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#FFFFFF",
   },
   secondaryButton: {
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
     borderWidth: 2,
-    borderColor: COLORS.border,
   },
   secondaryButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: COLORS.foreground,
   },
   featuresPreview: {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingTop: 24,
     borderTopWidth: 1,
-    borderTopColor: COLORS.border,
   },
   featureItem: {
     alignItems: "center",
@@ -350,7 +349,6 @@ const styles = StyleSheet.create({
   },
   featureText: {
     fontSize: 11,
-    color: COLORS.muted,
     textAlign: "center",
   },
 });

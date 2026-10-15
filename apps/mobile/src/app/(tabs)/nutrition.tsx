@@ -2,24 +2,18 @@ import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
-const COLORS = {
-  primary: "#087A55",
-  background: "#FCFDFB",
-  surface: "#FFFFFF",
-  foreground: "#101828",
-  muted: "#667085",
-  border: "#E5EAE7",
-  mint: "#EAF7F0",
-  orange: "#F97316",
-};
+import { useTheme } from "@/hooks/use-theme";
+import { useTranslation } from "@/localization/locale-provider";
 
 export default function NutritionTab() {
+  const theme = useTheme();
+  const { t } = useTranslation();
   const [mealSearch, setMealSearch] = useState("");
 
   const macros = [
-    { name: "Protein", value: 142, target: 160, unit: "g", color: COLORS.orange },
-    { name: "Carbs", value: 215, target: 250, unit: "g", color: "#2563EB" },
-    { name: "Fats", value: 62, target: 70, unit: "g", color: "#DC2626" },
+    { name: "Protein", value: 142, target: 160, unit: "g", color: theme.nutrition },
+    { name: "Carbs", value: 215, target: 250, unit: "g", color: theme.progress },
+    { name: "Fats", value: 62, target: 70, unit: "g", color: theme.danger },
   ];
 
   const meals = [
@@ -28,17 +22,20 @@ export default function NutritionTab() {
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.title}>Nutrition</Text>
+        <Text style={[styles.title, { color: theme.foreground }]}>{t("tabs.nutrition")}</Text>
 
         {/* Calories Summary */}
-        <View style={styles.caloriesCard}>
+        <View style={[styles.caloriesCard, { 
+          backgroundColor: theme.surface, 
+          borderColor: theme.border 
+        }]}>
           <View style={styles.calorieRing}>
-            <View style={styles.ringOuter}>
-              <View style={styles.ringInner}>
-                <Text style={styles.ringValue}>1,847</Text>
-                <Text style={styles.ringLabel}>of 2,200 cal</Text>
+            <View style={[styles.ringOuter, { backgroundColor: theme.primarySubtle }]}>
+              <View style={[styles.ringInner, { backgroundColor: theme.surface }]}>
+                <Text style={[styles.ringValue, { color: theme.primary }]}>1,847</Text>
+                <Text style={[styles.ringLabel, { color: theme.foregroundMuted }]}>of 2,200 cal</Text>
               </View>
             </View>
           </View>
@@ -46,13 +43,12 @@ export default function NutritionTab() {
             {macros.map((macro) => (
               <View key={macro.name} style={styles.macroItem}>
                 <View style={styles.macroHeader}>
-                  <Text style={styles.macroName}>{macro.name}</Text>
-                  <Text style={styles.macroValue}>
-                    {macro.value}/{macro.target}
-                    {macro.unit}
+                  <Text style={[styles.macroName, { color: theme.foreground }]}>{macro.name}</Text>
+                  <Text style={[styles.macroValue, { color: theme.foregroundMuted }]}>
+                    {macro.value}/{macro.target}{macro.unit}
                   </Text>
                 </View>
-                <View style={styles.macroBar}>
+                <View style={[styles.macroBar, { backgroundColor: theme.border }]}>
                   <View
                     style={[
                       styles.macroFill,
@@ -70,16 +66,23 @@ export default function NutritionTab() {
 
         {/* Log Meal */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Log a Meal</Text>
+          <Text style={[styles.sectionTitle, { color: theme.foreground }]}>Log a Meal</Text>
           <View style={styles.searchContainer}>
             <TextInput
-              style={styles.searchInput}
+              style={[
+                styles.searchInput,
+                {
+                  backgroundColor: theme.surface,
+                  color: theme.foreground,
+                  borderColor: theme.border,
+                },
+              ]}
               placeholder="Search foods..."
-              placeholderTextColor={COLORS.muted}
+              placeholderTextColor={theme.foregroundMuted}
               value={mealSearch}
               onChangeText={setMealSearch}
             />
-            <View style={styles.scanButton}>
+            <View style={[styles.scanButton, { backgroundColor: theme.primary }]}>
               <Text style={styles.scanButtonText}>📷</Text>
             </View>
           </View>
@@ -87,14 +90,23 @@ export default function NutritionTab() {
 
         {/* Today's Meals */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Today&apos;s Meals</Text>
+          <Text style={[styles.sectionTitle, { color: theme.foreground }]}>Today&apos;s Meals</Text>
           {meals.map((meal, index) => (
-            <View key={index} style={styles.mealCard}>
+            <View 
+              key={index} 
+              style={[
+                styles.mealCard, 
+                { 
+                  backgroundColor: theme.surface, 
+                  borderColor: theme.border 
+                }
+              ]}
+            >
               <View>
-                <Text style={styles.mealTime}>{meal.time}</Text>
-                <Text style={styles.mealName}>{meal.name}</Text>
+                <Text style={[styles.mealTime, { color: theme.foregroundMuted }]}>{meal.time}</Text>
+                <Text style={[styles.mealName, { color: theme.foreground }]}>{meal.name}</Text>
               </View>
-              <Text style={styles.mealCalories}>{meal.calories} cal</Text>
+              <Text style={[styles.mealCalories, { color: theme.primary }]}>{meal.calories} cal</Text>
             </View>
           ))}
         </View>
@@ -106,7 +118,6 @@ export default function NutritionTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   scrollContent: {
     padding: 20,
@@ -115,16 +126,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: COLORS.foreground,
     marginBottom: 24,
   },
   caloriesCard: {
-    backgroundColor: COLORS.surface,
     borderRadius: 20,
     padding: 20,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: COLORS.border,
   },
   calorieRing: {
     alignItems: "center",
@@ -134,7 +142,6 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: COLORS.mint,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -142,18 +149,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: COLORS.surface,
     justifyContent: "center",
     alignItems: "center",
   },
   ringValue: {
     fontSize: 24,
     fontWeight: "bold",
-    color: COLORS.primary,
   },
   ringLabel: {
     fontSize: 12,
-    color: COLORS.muted,
   },
   macrosList: {
     gap: 16,
@@ -167,15 +171,12 @@ const styles = StyleSheet.create({
   macroName: {
     fontSize: 14,
     fontWeight: "500",
-    color: COLORS.foreground,
   },
   macroValue: {
     fontSize: 14,
-    color: COLORS.muted,
   },
   macroBar: {
     height: 8,
-    backgroundColor: COLORS.border,
     borderRadius: 4,
     overflow: "hidden",
   },
@@ -189,7 +190,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.foreground,
     marginBottom: 12,
   },
   searchContainer: {
@@ -198,19 +198,15 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    backgroundColor: COLORS.surface,
     borderRadius: 12,
     padding: 14,
     fontSize: 16,
-    color: COLORS.foreground,
     borderWidth: 1,
-    borderColor: COLORS.border,
   },
   scanButton: {
     width: 52,
     height: 52,
     borderRadius: 12,
-    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -218,7 +214,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   mealCard: {
-    backgroundColor: COLORS.surface,
     borderRadius: 12,
     padding: 16,
     flexDirection: "row",
@@ -226,21 +221,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: COLORS.border,
   },
   mealTime: {
     fontSize: 12,
-    color: COLORS.muted,
     marginBottom: 4,
   },
   mealName: {
     fontSize: 14,
     fontWeight: "500",
-    color: COLORS.foreground,
   },
   mealCalories: {
     fontSize: 14,
     fontWeight: "600",
-    color: COLORS.primary,
   },
 });

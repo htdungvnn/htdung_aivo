@@ -2,12 +2,14 @@
  * Email Service - Cloudflare Email implementation
  * Uses Cloudflare Email Service Workers binding for sending emails
  */
+/// <reference path="../../worker-configuration.d.ts" />
 
 interface SendEmailOptions {
   to: string;
   subject: string;
   html: string;
   text?: string;
+  from?: string;
 }
 
 interface EmailResult {
@@ -16,17 +18,13 @@ interface EmailResult {
   error?: string;
 }
 
-interface Env {
-  CF_EMAIL: {
-    send: (message: EmailMessage) => Promise<{ success: boolean }>;
-  };
-}
-
 /**
  * Send email using Cloudflare Email Service binding
+ * Ref: https://developers.cloudflare.com/email-service/api/send-emails/workers-api/
  */
-async function sendViaCloudflare(options: SendEmailOptions, env: Env): Promise<EmailResult> {
-  const fromEmail = process.env.EMAIL_FROM || "AIVO <noreply@aivo.website>";
+async function sendViaCloudflare(options: SendEmailOptions, env: CloudflareBindings): Promise<EmailResult> {
+  // Use configured from address or default
+  const fromEmail = options.from || env.EMAIL_FROM || "AIVO <noreply@aivo.website>";
 
   if (!env.CF_EMAIL) {
     console.error("[Email] CF_EMAIL binding is not configured");
@@ -34,53 +32,30 @@ async function sendViaCloudflare(options: SendEmailOptions, env: Env): Promise<E
   }
 
   try {
-    const message = new EmailMessage(
-      fromEmail,
-      options.to,
-      options.text || options.html
-    );
-
-    // Set HTML content via headers
-    message.headers.set("Content-Type", "text/html; charset=utf-8");
-    message.headers.set("Subject", options.subject);
-
     const result = await env.CF_EMAIL.send({
       from: fromEmail,
       to: options.to,
       subject: options.subject,
       html: options.html,
+      text: options.text,
     });
 
-    if (!result.success) {
+    // EmailSendResult returns messageId on success
+    if (!result.messageId) {
       return { success: false, error: "Failed to send email" };
     }
 
-    return { success: true };
+    return { success: true, messageId: result.messageId };
   } catch (error) {
     console.error("[Email] Cloudflare email error:", error);
     return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
   }
 }
 
-// Fallback class for EmailMessage when not in Workers runtime
-class EmailMessage {
-  from: string;
-  to: string;
-  raw: string;
-  headers: Map<string, string>;
-
-  constructor(from: string, to: string, body: string) {
-    this.from = from;
-    this.to = to;
-    this.raw = body;
-    this.headers = new Map();
-  }
-}
-
 /**
  * Send email - main entry point
  */
-export async function sendEmail(options: SendEmailOptions, env?: Env): Promise<EmailResult> {
+export async function sendEmail(options: SendEmailOptions, env?: CloudflareBindings): Promise<EmailResult> {
   // Use Cloudflare Email Service (primary)
   if (env?.CF_EMAIL) {
     return sendViaCloudflare(options, env);
@@ -207,7 +182,7 @@ function maskEmail(email: string): string {
 export async function sendOtpEmail(
   to: string,
   otp: string,
-  env?: Env
+  env?: CloudflareBindings
 ): Promise<EmailResult> {
   const result = await sendEmail({
     to,
@@ -217,7 +192,7 @@ export async function sendOtpEmail(
   }, env);
 
   // In development, also log to console
-  if (process.env.NODE_ENV === "development") {
+  if ((process.env.NODE_ENV as string) === "development") {
     console.log(`[DEV] OTP for ${to}: ${otp}`);
   }
 

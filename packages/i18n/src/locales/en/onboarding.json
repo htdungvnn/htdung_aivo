@@ -1,0 +1,47 @@
+{
+  "welcome": {
+    "brand": "AIVO",
+    "hero": {
+      "greeting": {
+        "morning": "Good morning!",
+        "afternoon": "Good afternoon!",
+        "evening": "Good evening!"
+      },
+      "stats": {
+        "calories": "Calories",
+        "protein": "Protein",
+        "workouts": "Workouts"
+      },
+      "todayWorkout": "Today's Workout",
+      "startButton": "Start"
+    },
+    "content": {
+      "heading": "A Healthier, Happier You",
+      "description": "Personalized workouts, practical nutrition tracking, and AI guidance in one simple experience."
+    },
+    "actions": {
+      "getStarted": "Get Started",
+      "alreadyHaveAccount": "I already have an account"
+    },
+    "features": {
+      "personalizedWorkouts": "Personalized Workouts",
+      "nutritionTracking": "Nutrition Tracking",
+      "aiCoach": "AI Coach"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Let AIVO understand you",
+      "description": "Answer a few questions so AIVO can create a workout and nutrition plan around your goals.",
+      "start": "Get started"
+    },
+    "goal": {
+      "title": "What's your main goal?",
+      "description": "AIVO will use this goal to create the right starting plan.",
+      "loseFat": "Lose fat",
+      "buildMuscle": "Build muscle",
+      "maintain": "Maintain fitness",
+      "improveFitness": "Improve fitness"
+    }
+  }
+}

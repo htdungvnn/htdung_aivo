@@ -1,67 +1,73 @@
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { authClient } from "@/features/auth/services";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { ThemeProvider } from "@/contexts/theme-context";
 import { LocaleProvider } from "@/localization/locale-provider";
+import { AuthProvider, useAuth } from "@/features/auth/contexts/auth-context";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const [isReady, setIsReady] = useState(false);
+// Inner component that handles auth routing
+function RootLayoutContent() {
+  const { isLoading } = useAuth();
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        await authClient.getCurrentUser();
-      } catch {
-        // Session check complete
-      } finally {
-        await SplashScreen.hideAsync();
-        setIsReady(true);
-      }
-    };
-    init();
-  }, []);
+    if (isLoading) return;
+    SplashScreen.hideAsync();
+  }, [isLoading]);
 
-  if (!isReady) {
-    return null;
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#087A55" />
+      </View>
+    );
   }
 
   return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      {/* Index route - redirect based on auth state */}
+      <Stack.Screen name="index" />
+      
+      {/* Auth routes */}
+      <Stack.Screen name="(auth)/login" />
+      <Stack.Screen name="(auth)/verify-email" />
+      <Stack.Screen name="(auth)/auth/callback" />
+
+      {/* Public routes */}
+      <Stack.Screen name="(public)/welcome" />
+      
+      {/* App tabs - protected */}
+      <Stack.Screen name="(tabs)" />
+
+      {/* Catch-all */}
+      <Stack.Screen name="+not-found" />
+    </Stack>
+  );
+}
+
+export default function RootLayout() {
+  return (
     <LocaleProvider>
       <ThemeProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {/* Public routes */}
-          <Stack.Screen name="(public)/welcome" />
-          
-          {/* Auth routes */}
-          <Stack.Screen
-            name="(auth)/login"
-            options={{ animation: "slide_from_right" }}
-          />
-          <Stack.Screen
-            name="(auth)/verify-email"
-            options={{ animation: "slide_from_right" }}
-          />
-          
-          {/* App tabs - only accessible after auth */}
-          <Stack.Screen
-            name="(tabs)"
-            options={{ animation: "fade" }}
-          />
-
-          {/* Catch-all for unmatched routes */}
-          <Stack.Screen
-            name="+not-found"
-            options={{ title: "Oops!" }}
-          />
-        </Stack>
+        <AuthProvider>
+          <RootLayoutContent />
+        </AuthProvider>
       </ThemeProvider>
     </LocaleProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FCFDFB",
+  },
+});

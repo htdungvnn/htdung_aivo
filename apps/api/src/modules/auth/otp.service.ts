@@ -1,6 +1,7 @@
 /**
  * OTP service - handles email OTP generation and verification
  */
+/// <reference path="../../../worker-configuration.d.ts" />
 import {
   createAuthError,
   type AuthError,
@@ -13,7 +14,6 @@ import {
 } from "./auth.service";
 import { sendOtpEmail } from "../../lib/email.service";
 import type { Platform, RequestMetadata, VerificationChallenge } from "./auth.types";
-import type { CloudflareBindings } from "../../index";
 
 // Configuration constants
 const OTP_LENGTH = 6;

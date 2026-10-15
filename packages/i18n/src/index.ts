@@ -18,28 +18,36 @@ export {
 export {
   formatDate,
   formatShortDate,
+  formatFullDate,
   formatNumber,
   formatRelativeTime,
   formatTime,
   getGreeting,
+  formatDuration,
+  formatWeight,
+  formatCalories,
 } from './formatters';
 
 // Translation namespaces - Vietnamese
 import commonVi from './locales/vi-VN/common.json';
 import authVi from './locales/vi-VN/auth.json';
+import onboardingVi from './locales/vi-VN/onboarding.json';
 
 export const viVN = {
   common: commonVi,
   auth: authVi,
+  onboarding: onboardingVi,
 } as const;
 
 // Translation namespaces - English
 import commonEn from './locales/en/common.json';
 import authEn from './locales/en/auth.json';
+import onboardingEn from './locales/en/onboarding.json';
 
 export const en = {
   common: commonEn,
   auth: authEn,
+  onboarding: onboardingEn,
 } as const;
 
 /**

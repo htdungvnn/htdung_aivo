@@ -8,6 +8,8 @@ export interface User {
   primaryEmail: string | null;
   emailVerifiedAt: Date | null;
   onboardingStatus: OnboardingStatus;
+  name?: string;
+  picture?: string;
   createdAt: Date;
   updatedAt: Date;
   lastLoginAt: Date | null;
@@ -48,7 +50,7 @@ export interface Session {
   revokeReason: string | null;
 }
 
-export type Platform = "web" | "ios" | "android";
+export type Platform = "web" | "ios" | "android" | "mobile";
 
 export interface VerificationChallenge {
   id: string;

@@ -157,6 +157,16 @@ const jsonLd = {
 };
 
 export default function Home() {
+  // Handle OAuth redirect - check for auth success parameter
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("auth") === "success") {
+      // Clean URL and redirect
+      window.history.replaceState({}, "", "/");
+      window.location.href = "/dashboard";
+    }
+  }
+
   return (
     <>
       {/* JSON-LD Structured Data */}

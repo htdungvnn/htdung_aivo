@@ -17,12 +17,38 @@ export function formatDate(date: Date, locale: AppLocale): string {
 }
 
 /**
- * Format a short date (e.g., "Oct 15")
+ * Format a short date (e.g., "Oct 15" or "15 thg 10")
  */
 export function formatShortDate(date: Date, locale: AppLocale): string {
-  return new Intl.DateTimeFormat(locale, {
+  if (locale === "vi-VN") {
+    return new Intl.DateTimeFormat("vi-VN", {
+      day: "numeric",
+      month: "short",
+    }).format(date);
+  }
+  return new Intl.DateTimeFormat("en", {
     month: "short",
     day: "numeric",
+  }).format(date);
+}
+
+/**
+ * Format a full date with day name (e.g., "Thursday, October 15, 2026")
+ */
+export function formatFullDate(date: Date, locale: AppLocale): string {
+  if (locale === "vi-VN") {
+    return new Intl.DateTimeFormat("vi-VN", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(date);
+  }
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
   }).format(date);
 }
 
@@ -65,19 +91,54 @@ export function formatTime(date: Date, locale: AppLocale): string {
 }
 
 /**
- * Format a greeting based on time of day
+ * Get time-of-day greeting based on locale
  */
-export function getGreeting(locale: AppLocale, name?: string): string {
+export function getGreeting(locale: AppLocale): string {
   const hour = new Date().getHours();
-  let timeOfDay: 'morning' | 'afternoon' | 'evening';
+  
+  const greetings: Record<AppLocale, { morning: string; afternoon: string; evening: string }> = {
+    "vi-VN": {
+      morning: "Chào buổi sáng",
+      afternoon: "Chào buổi chiều",
+      evening: "Chào buổi tối",
+    },
+    "en": {
+      morning: "Good morning",
+      afternoon: "Good afternoon",
+      evening: "Good evening",
+    },
+  };
   
   if (hour < 12) {
-    timeOfDay = 'morning';
+    return greetings[locale].morning;
   } else if (hour < 18) {
-    timeOfDay = 'afternoon';
+    return greetings[locale].afternoon;
   } else {
-    timeOfDay = 'evening';
+    return greetings[locale].evening;
   }
-  
-  return `greeting.${timeOfDay}`;
+}
+
+/**
+ * Format duration in minutes to readable string (e.g., "45 min")
+ */
+export function formatDuration(minutes: number, locale: AppLocale): string {
+  if (locale === "vi-VN") {
+    return `${minutes} phút`;
+  }
+  return `${minutes} min`;
+}
+
+/**
+ * Format weight (kg/lb)
+ */
+export function formatWeight(value: number, locale: AppLocale, unit: "kg" | "lb" = "kg"): string {
+  const formatted = formatNumber(value, locale);
+  return `${formatted} ${unit}`;
+}
+
+/**
+ * Format calories
+ */
+export function formatCalories(value: number, locale: AppLocale): string {
+  return `${formatNumber(value, locale)} cal`;
 }

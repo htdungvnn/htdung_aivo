@@ -10,9 +10,8 @@ export const emailSchema = z
     invalid_type_error: "Enter a valid email address.",
   })
   .min(1, "Enter a valid email address.")
-  .email("Enter a valid email address.")
-  .max(254, "Email address is too long.")
-  .transform((email) => email.toLowerCase().trim());
+  .transform((email) => email.trim().toLowerCase())
+  .pipe(z.string().email("Enter a valid email address.").max(254, "Email address is too long."));
 
 /**
  * OTP code schema - 6 digits
