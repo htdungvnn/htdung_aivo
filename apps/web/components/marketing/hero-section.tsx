@@ -373,12 +373,19 @@ export function HeroSection() {
               <AICoachCard />
             </div>
 
-            {/* Mobile Layout */}
-            <div className="flex gap-4 lg:hidden">
+            {/* Tablet Layout */}
+            <div className="hidden md:flex lg:hidden gap-4">
               <div className="flex-1">
                 <DashboardPreview />
               </div>
-              <div className="w-40">
+              <div className="w-44">
+                <MobilePreview />
+              </div>
+            </div>
+
+            {/* Mobile Layout - Just phone preview */}
+            <div className="md:hidden flex justify-center">
+              <div className="w-64">
                 <MobilePreview />
               </div>
             </div>

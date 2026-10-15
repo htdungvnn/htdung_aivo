@@ -11,6 +11,7 @@ import {
   hashValue,
   verifyHash,
 } from "./auth.service";
+import { sendOtpEmail } from "../../lib/email.service";
 import type { Platform, RequestMetadata, VerificationChallenge } from "./auth.types";
 
 // Configuration constants
@@ -85,9 +86,12 @@ export async function createOtpChallenge(
   // Update rate limit
   updateRateLimit(email);
 
-  // Log for development (in production, never log the code)
-  if (process.env.NODE_ENV === "development") {
-    console.log(`[DEV] OTP for ${email}: ${code}`);
+  // Send OTP email
+  const emailResult = await sendOtpEmail(email, code);
+  if (!emailResult.success) {
+    console.error(`[OTP] Failed to send email to ${email}:`, emailResult.error);
+    // Continue anyway - don't block auth flow for email delivery issues
+    // The code is logged in dev mode for testing
   }
 
   return {
