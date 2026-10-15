@@ -1,0 +1,31 @@
+{
+  "name": "@aivo/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./onboarding": {
+      "types": "./src/onboarding/onboarding.types.ts",
+      "default": "./src/onboarding/onboarding.types.ts"
+    },
+    "./onboarding-schema": {
+      "types": "./src/onboarding/onboarding.schema.ts",
+      "default": "./src/onboarding/onboarding.schema.ts"
+    },
+    "./onboarding-options": {
+      "types": "./src/onboarding/options.ts",
+      "default": "./src/onboarding/options.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "devDependencies": {
+    "zod": "^3.25.76"
+  }
+}

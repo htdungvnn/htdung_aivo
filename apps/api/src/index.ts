@@ -5,7 +5,9 @@ import { logger } from "hono/logger";
 import { swaggerUI } from "@hono/swagger-ui";
 
 import { authRoutes } from "./modules/auth/auth.routes";
+import { onboardingRoutes } from "./modules/onboarding/onboarding.routes";
 import { AuthError } from "./modules/auth/auth.errors";
+import { OnboardingError } from "./modules/onboarding/onboarding.errors";
 import type { AuthContext } from "./modules/auth/auth.types";
 
 // Type used by Hono - CloudflareBindings comes from worker-configuration.d.ts
@@ -34,6 +36,9 @@ app.get("/health", (c) => c.json({ status: "ok" }));
 
 // Mount auth routes
 app.route("/v1/auth", authRoutes);
+
+// Mount onboarding routes
+app.route("/v1/onboarding", onboardingRoutes);
 
 // Swagger UI
 app.get("/docs", swaggerUI({ url: "/openapi" }));
@@ -353,6 +358,16 @@ app.onError((err, c) => {
         code: err.code,
       },
       err.status as 400 | 401 | 403 | 404 | 429 | 500
+    );
+  }
+
+  if (err instanceof OnboardingError) {
+    return c.json(
+      {
+        error: err.message,
+        code: err.code,
+      },
+      err.status as 400 | 401 | 403 | 404 | 409 | 429 | 500
     );
   }
 
