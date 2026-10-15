@@ -1,68 +1,170 @@
-const links = [
-  {
-    href: "https://github.com/cloudflare/vinext",
-    label: "vinext",
+import type { Metadata } from "next";
+import "./globals.css";
+import { LandingPage } from "@/components/marketing/landing-page";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://aivo.fitness";
+
+export const metadata: Metadata = {
+  title: "AIVO - AI Fitness, Workout & Nutrition Coach",
+  description:
+    "Build personalized workout plans, track nutrition, monitor progress, and get intelligent fitness guidance with AIVO. Your personal AI fitness companion.",
+  keywords: [
+    "AI fitness coach",
+    "workout planner",
+    "nutrition tracker",
+    "fitness app",
+    "meal tracking",
+    "macro calculator",
+    "workout app",
+    "personal trainer",
+    "fitness goals",
+    "health tracking",
+  ],
+  authors: [{ name: "AIVO Team" }],
+  creator: "AIVO",
+  publisher: "AIVO",
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: "/",
   },
-  {
-    href: "https://developers.cloudflare.com/workers/",
-    label: "Workers",
+  openGraph: {
+    title: "AIVO - AI Fitness, Workout & Nutrition Coach",
+    description:
+      "Build personalized workout plans, track nutrition, monitor progress, and get intelligent fitness guidance with AIVO.",
+    url: SITE_URL,
+    siteName: "AIVO",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/images/landing/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "AIVO - AI Fitness, Workout & Nutrition Coach",
+      },
+    ],
   },
-];
+  twitter: {
+    card: "summary_large_image",
+    title: "AIVO - AI Fitness, Workout & Nutrition Coach",
+    description:
+      "Build personalized workout plans, track nutrition, monitor progress, and get intelligent fitness guidance with AIVO.",
+    images: ["/images/landing/og-image.png"],
+    creator: "@aivofitness",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180" },
+    ],
+  },
+};
+
+// JSON-LD Structured Data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "AIVO",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/icon.svg`,
+        width: 512,
+        height: 512,
+      },
+      sameAs: [
+        "https://twitter.com/aivofitness",
+        "https://instagram.com/aivofitness",
+        "https://youtube.com/@aivofitness",
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        availableLanguage: "English",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "AIVO",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      description:
+        "AI-powered fitness and nutrition platform with personalized workout plans and coaching.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${SITE_URL}/#app`,
+      name: "AIVO",
+      applicationCategory: "HealthApplication",
+      operatingSystem: "Web, iOS, Android",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        description: "Free to start with premium features available",
+      },
+      aggregateRating: undefined, // Only include if real data exists
+      screenshot: `${SITE_URL}/images/landing/app-screenshot.png`,
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/#webpage`,
+      url: SITE_URL,
+      name: "AIVO - AI Fitness, Workout & Nutrition Coach",
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: { "@id": `${SITE_URL}/#organization` },
+      description:
+        "Build personalized workout plans, track nutrition, monitor progress, and get intelligent fitness guidance with AIVO.",
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_URL,
+          },
+        ],
+      },
+    },
+  ],
+};
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-950">
-      <section className="mx-auto flex max-w-4xl flex-col gap-8">
-        <div className="flex flex-col gap-4">
-          <p className="text-sm font-semibold uppercase tracking-wide text-orange-600">
-            vinext + Cloudflare Workers
-          </p>
-          <h1 className="max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl">
-            Build Next.js-style apps with Vite and deploy them to the edge.
-          </h1>
-          <p className="max-w-2xl text-lg leading-8 text-slate-700">
-            This App Router project is wired for vinext, Tailwind CSS, and Cloudflare Workers.
-          </p>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
-            <h2 className="font-semibold">Develop</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">Run the vinext dev server locally.</p>
-            <code className="mt-4 block rounded bg-slate-100 px-3 py-2 text-sm">pnpm run dev</code>
-          </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
-            <h2 className="font-semibold">Build</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">Create Worker-ready production output.</p>
-            <code className="mt-4 block rounded bg-slate-100 px-3 py-2 text-sm">pnpm run build</code>
-          </div>
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
-            <h2 className="font-semibold">Deploy</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">Ship the generated Worker with cf.</p>
-            <code className="mt-4 block rounded bg-slate-100 px-3 py-2 text-sm">pnpm run deploy</code>
-          </div>
-        </div>
-
-        <nav className="flex flex-wrap gap-3">
-          {links.map((link) => (
-            <a
-              className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-100"
-              href={link.href}
-              key={link.href}
-              rel="noreferrer"
-              target="_blank"
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-100"
-            href="/api/hello"
-          >
-            API route
-          </a>
-        </nav>
-      </section>
-    </main>
+    <>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <LandingPage />
+    </>
   );
 }

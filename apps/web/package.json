@@ -25,7 +25,8 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "lsof -ti :5173 -ti :8788 | xargs -r kill -9 2>/dev/null; vite dev",
+    "dev:clean": "vite dev",
     "build": "vite build",
     "start": "vite preview",
     "deploy": "vinext-cloudflare deploy",
