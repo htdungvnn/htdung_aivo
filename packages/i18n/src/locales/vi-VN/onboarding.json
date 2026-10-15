@@ -1,0 +1,47 @@
+{
+  "welcome": {
+    "brand": "AIVO",
+    "hero": {
+      "greeting": {
+        "morning": "Chào buổi sáng!",
+        "afternoon": "Chào buổi chiều!",
+        "evening": "Chào buổi tối!"
+      },
+      "stats": {
+        "calories": "Calories",
+        "protein": "Protein",
+        "workouts": "Buổi tập"
+      },
+      "todayWorkout": "Buổi tập hôm nay",
+      "startButton": "Bắt đầu"
+    },
+    "content": {
+      "heading": "Một phiên bản khỏe mạnh hơn, hạnh phúc hơn của bạn",
+      "description": "Kế hoạch tập luyện cá nhân hóa, theo dõi dinh dưỡng thực tế và hướng dẫn từ AI trong một trải nghiệm đơn giản."
+    },
+    "actions": {
+      "getStarted": "Bắt đầu",
+      "alreadyHaveAccount": "Tôi đã có tài khoản"
+    },
+    "features": {
+      "personalizedWorkouts": "Bài tập cá nhân hóa",
+      "nutritionTracking": "Theo dõi dinh dưỡng",
+      "aiCoach": "Huấn luyện viên AI"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Hãy để AIVO hiểu bạn hơn",
+      "description": "Trả lời một vài câu hỏi để AIVO tạo kế hoạch tập luyện và dinh dưỡng phù hợp với mục tiêu của bạn.",
+      "start": "Bắt đầu"
+    },
+    "goal": {
+      "title": "Mục tiêu chính của bạn là gì?",
+      "description": "AIVO sẽ dùng mục tiêu này để xây dựng kế hoạch phù hợp.",
+      "loseFat": "Giảm mỡ",
+      "buildMuscle": "Tăng cơ",
+      "maintain": "Duy trì thể trạng",
+      "improveFitness": "Cải thiện thể lực"
+    }
+  }
+}

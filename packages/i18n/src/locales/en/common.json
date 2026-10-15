@@ -1,0 +1,46 @@
+{
+  "actions": {
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "cancel": "Cancel",
+    "retry": "Try again",
+    "close": "Close",
+    "edit": "Edit",
+    "done": "Done",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "skip": "Skip",
+    "submit": "Submit"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "offline": "You're offline"
+  },
+  "validation": {
+    "email": {
+      "required": "Email is required.",
+      "invalid": "Enter a valid email address."
+    },
+    "password": {
+      "required": "Password is required.",
+      "minLength": "Password must be at least {{min}} characters."
+    },
+    "required": "This field is required."
+  },
+  "errors": {
+    "network": "Network error. Please check your connection.",
+    "oauth": "Failed to start sign-in. Please try again.",
+    "unknown": "Something went wrong. Please try again."
+  },
+  "tabs": {
+    "home": "Home",
+    "workouts": "Workouts",
+    "nutrition": "Nutrition",
+    "coach": "Coach",
+    "settings": "Settings"
+  }
+}

@@ -4,73 +4,73 @@ import { useState, useEffect } from "react";
 
 function DashboardPreview() {
   return (
-    <div className="relative rounded-2xl bg-white p-6 shadow-xl">
+    <div className="relative rounded-2xl bg-[var(--surface)] p-6 shadow-xl">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-sm text-[#667085]">Welcome back</p>
-          <h3 className="text-lg font-semibold text-[#101828]">Sarah</h3>
+          <p className="text-sm text-[var(--foreground-muted)]">Welcome back</p>
+          <h3 className="text-lg font-semibold text-[var(--foreground)]">Sarah</h3>
         </div>
-        <div className="h-10 w-10 rounded-full bg-[#EAF7F0]" />
+        <div className="h-10 w-10 rounded-full bg-[var(--primary-subtle)]" />
       </div>
 
       {/* Stats Grid */}
       <div className="mb-6 grid grid-cols-3 gap-4">
-        <div className="rounded-xl bg-[#EAF7F0] p-4">
-          <p className="text-xs text-[#667085]">Calories</p>
-          <p className="text-xl font-bold text-[#087A55]">1,847</p>
-          <p className="text-xs text-[#667085]">of 2,200</p>
+        <div className="rounded-xl bg-[var(--primary-subtle)] p-4">
+          <p className="text-xs text-[var(--foreground-muted)]">Calories</p>
+          <p className="text-xl font-bold text-[var(--primary)]">1,847</p>
+          <p className="text-xs text-[var(--foreground-muted)]">of 2,200</p>
         </div>
-        <div className="rounded-xl bg-[#FFF7ED] p-4">
-          <p className="text-xs text-[#667085]">Protein</p>
-          <p className="text-xl font-bold text-[#F97316]">142g</p>
-          <p className="text-xs text-[#667085]">of 160g</p>
+        <div className="rounded-xl bg-[var(--nutrition-subtle)] p-4">
+          <p className="text-xs text-[var(--foreground-muted)]">Protein</p>
+          <p className="text-xl font-bold text-[var(--nutrition)]">142g</p>
+          <p className="text-xs text-[var(--foreground-muted)]">of 160g</p>
         </div>
-        <div className="rounded-xl bg-[#F0F4FF] p-4">
-          <p className="text-xs text-[#667085]">Workouts</p>
-          <p className="text-xl font-bold text-[#2563EB]">4</p>
-          <p className="text-xs text-[#667085]">this week</p>
+        <div className="rounded-xl bg-[var(--progress-subtle)] p-4">
+          <p className="text-xs text-[var(--foreground-muted)]">Workouts</p>
+          <p className="text-xl font-bold text-[var(--progress)]">4</p>
+          <p className="text-xs text-[var(--foreground-muted)]">this week</p>
         </div>
       </div>
 
       {/* Today's Workout */}
-      <div className="mb-4 rounded-xl border border-[#E5EAE7] p-4">
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#667085]">
+      <div className="mb-4 rounded-xl border border-[var(--border)] p-4">
+        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[var(--foreground-muted)]">
           Today&apos;s Workout
         </p>
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="font-medium text-[#101828]">Upper Body Strength</h4>
-            <p className="text-sm text-[#667085]">45 min • Push Day</p>
+            <h4 className="font-medium text-[var(--foreground)]">Upper Body Strength</h4>
+            <p className="text-sm text-[var(--foreground-muted)]">45 min • Push Day</p>
           </div>
-          <span className="rounded-full bg-[#087A55] px-3 py-1 text-xs font-medium text-white">
+          <span className="rounded-full bg-[var(--primary)] px-3 py-1 text-xs font-medium text-white">
             Start
           </span>
         </div>
       </div>
 
       {/* Nutrition Task */}
-      <div className="mb-4 rounded-xl border border-[#E5EAE7] p-4">
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#667085]">
+      <div className="mb-4 rounded-xl border border-[var(--border)] p-4">
+        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[var(--foreground-muted)]">
           Nutrition
         </p>
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-4 border-[#087A55] border-t-transparent" />
+          <div className="h-12 w-12 rounded-full border-4 border-[var(--primary)] border-t-transparent" />
           <div className="flex-1">
             <div className="flex justify-between text-sm">
-              <span className="text-[#101828]">Log lunch</span>
-              <span className="text-[#667085]">675 cal remaining</span>
+              <span className="text-[var(--foreground)]">Log lunch</span>
+              <span className="text-[var(--foreground-muted)]">675 cal remaining</span>
             </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#E5EAE7]">
-              <div className="h-full w-3/5 rounded-full bg-[#087A55]" />
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--border)]">
+              <div className="h-full w-3/5 rounded-full bg-[var(--primary)]" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Progress Chart */}
-      <div className="rounded-xl border border-[#E5EAE7] p-4">
-        <p className="mb-4 text-xs font-medium uppercase tracking-wide text-[#667085]">
+      <div className="rounded-xl border border-[var(--border)] p-4">
+        <p className="mb-4 text-xs font-medium uppercase tracking-wide text-[var(--foreground-muted)]">
           30-Day Progress
         </p>
         <div className="flex items-end justify-between gap-1">
@@ -78,13 +78,13 @@ function DashboardPreview() {
             (h, i) => (
               <div
                 key={i}
-                className="flex-1 rounded-t bg-[#087A55]"
+                className="flex-1 rounded-t bg-[var(--primary)]"
                 style={{ height: `${h}%` }}
               />
             )
           )}
         </div>
-        <div className="mt-2 flex justify-between text-xs text-[#667085]">
+        <div className="mt-2 flex justify-between text-xs text-[var(--foreground-muted)]">
           <span>Week 1</span>
           <span>Week 4</span>
         </div>
@@ -95,13 +95,13 @@ function DashboardPreview() {
 
 function MobilePreview() {
   return (
-    <div className="relative rounded-2xl bg-[#101828] p-4 shadow-xl">
+    <div className="relative rounded-2xl bg-[var(--foreground)] p-4 shadow-xl">
       {/* Phone Frame */}
-      <div className="rounded-xl bg-white p-4">
+      <div className="rounded-xl bg-[var(--surface)] p-4">
         {/* Header */}
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-xs font-medium text-[#667085]">Today</p>
-          <p className="text-xs font-medium text-[#101828]">October 15</p>
+          <p className="text-xs font-medium text-[var(--foreground-muted)]">Today</p>
+          <p className="text-xs font-medium text-[var(--foreground)]">October 15</p>
         </div>
 
         {/* Calorie Ring */}
@@ -113,7 +113,7 @@ function MobilePreview() {
                 cy="64"
                 r="56"
                 fill="none"
-                stroke="#E5EAE7"
+                stroke="var(--border)"
                 strokeWidth="12"
               />
               <circle
@@ -121,7 +121,7 @@ function MobilePreview() {
                 cy="64"
                 r="56"
                 fill="none"
-                stroke="#087A55"
+                stroke="var(--primary)"
                 strokeWidth="12"
                 strokeDasharray="352"
                 strokeDashoffset="88"
@@ -129,35 +129,35 @@ function MobilePreview() {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-2xl font-bold text-[#101828]">1,847</span>
-              <span className="text-xs text-[#667085]">calories</span>
+              <span className="text-2xl font-bold text-[var(--foreground)]">1,847</span>
+              <span className="text-xs text-[var(--foreground-muted)]">calories</span>
             </div>
           </div>
         </div>
 
         {/* Macros */}
         <div className="mb-4 grid grid-cols-3 gap-2">
-          <div className="rounded-lg bg-[#FFF7ED] p-2 text-center">
-            <p className="text-sm font-bold text-[#F97316]">142g</p>
-            <p className="text-xs text-[#667085]">Protein</p>
+          <div className="rounded-lg bg-[var(--nutrition-subtle)] p-2 text-center">
+            <p className="text-sm font-bold text-[var(--nutrition)]">142g</p>
+            <p className="text-xs text-[var(--foreground-muted)]">Protein</p>
           </div>
-          <div className="rounded-lg bg-[#F0F9FF] p-2 text-center">
-            <p className="text-sm font-bold text-[#2563EB]">215g</p>
-            <p className="text-xs text-[#667085]">Carbs</p>
+          <div className="rounded-lg bg-[var(--progress-subtle)] p-2 text-center">
+            <p className="text-sm font-bold text-[var(--progress)]">215g</p>
+            <p className="text-xs text-[var(--foreground-muted)]">Carbs</p>
           </div>
-          <div className="rounded-lg bg-[#FEF3F2] p-2 text-center">
-            <p className="text-sm font-bold text-[#DC2626]">62g</p>
-            <p className="text-xs text-[#667085]">Fats</p>
+          <div className="rounded-lg bg-[var(--danger-subtle)] p-2 text-center">
+            <p className="text-sm font-bold text-[var(--danger)]">62g</p>
+            <p className="text-xs text-[var(--foreground-muted)]">Fats</p>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="mb-4 flex gap-2 rounded-lg bg-[#F5F7F5] p-1">
+        <div className="mb-4 flex gap-2 rounded-lg bg-[var(--surface-subtle)] p-1">
           {["Today", "Nutrition", "Activity"].map((tab, i) => (
             <div
               key={tab}
               className={`flex-1 rounded-md px-2 py-1.5 text-center text-xs font-medium ${
-                i === 0 ? "bg-white text-[#101828] shadow-sm" : "text-[#667085]"
+                i === 0 ? "bg-[var(--surface)] text-[var(--foreground)] shadow-sm" : "text-[var(--foreground-muted)]"
               }`}
             >
               {tab}
@@ -166,10 +166,10 @@ function MobilePreview() {
         </div>
 
         {/* Recent Meal */}
-        <div className="rounded-lg border border-[#E5EAE7] p-3">
-          <p className="mb-2 text-xs font-medium text-[#667085]">Breakfast</p>
-          <p className="font-medium text-[#101828]">Oatmeal with Berries</p>
-          <p className="text-sm text-[#667085]">485 calories</p>
+        <div className="rounded-lg border border-[var(--border)] p-3">
+          <p className="mb-2 text-xs font-medium text-[var(--foreground-muted)]">Breakfast</p>
+          <p className="font-medium text-[var(--foreground)]">Oatmeal with Berries</p>
+          <p className="text-sm text-[var(--foreground-muted)]">485 calories</p>
         </div>
       </div>
     </div>
@@ -223,13 +223,13 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-[#FCFDFB] pt-20 lg:pt-24"
+      className="relative min-h-screen overflow-hidden bg-[var(--background)] pt-20 lg:pt-24"
       aria-labelledby="hero-heading"
     >
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-[#EAF7F0] opacity-60 blur-3xl" />
-        <div className="absolute -bottom-40 -right-20 h-[500px] w-[500px] rounded-full bg-[#EAF7F0] opacity-40 blur-3xl" />
+        <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-[var(--primary-subtle)] opacity-60 blur-3xl" />
+        <div className="absolute -bottom-40 -right-20 h-[500px] w-[500px] rounded-full bg-[var(--primary-subtle)] opacity-40 blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -241,24 +241,24 @@ export function HeroSection() {
             }`}
           >
             {/* Eyebrow */}
-            <p className="mb-4 inline-flex items-center rounded-full bg-[#EAF7F0] px-4 py-1.5 text-sm font-medium text-[#087A55]">
+            <p className="mb-4 inline-flex items-center rounded-full bg-[var(--primary-subtle)] px-4 py-1.5 text-sm font-medium text-[var(--primary)]">
               Your Personal AI Fitness &amp; Nutrition Coach
             </p>
 
             {/* Headline */}
             <h1
               id="hero-heading"
-              className="mb-6 text-4xl font-bold leading-tight text-[#101828] sm:text-5xl lg:text-6xl"
+              className="mb-6 text-4xl font-bold leading-tight text-[var(--foreground)] sm:text-5xl lg:text-6xl"
             >
               Smarter Workouts.
               <br />
               Healthier You.
               <br />
-              <span className="text-[#087A55]">With AIVO.</span>
+              <span className="text-[var(--primary)]">With AIVO.</span>
             </h1>
 
             {/* Description */}
-            <p className="mb-8 max-w-lg text-lg text-[#667085]">
+            <p className="mb-8 max-w-lg text-lg text-[var(--foreground-muted)]">
               Get personalized workout plans, practical nutrition guidance,
               progress tracking, and AI-powered support in one connected
               experience.
@@ -268,7 +268,7 @@ export function HeroSection() {
             <div className="mb-8 flex flex-wrap gap-4">
               <a
                 href="/signup"
-                className="inline-flex items-center gap-2 rounded-full bg-[#087A55] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#066847]"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--primary)] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[var(--primary-hover)]"
               >
                 Start Your Journey
                 <svg
@@ -287,7 +287,7 @@ export function HeroSection() {
               </a>
               <a
                 href="#demo"
-                className="inline-flex items-center gap-2 rounded-full border border-[#E5EAE7] bg-white px-6 py-3 text-base font-semibold text-[#101828] transition-colors hover:bg-[#F5F7F5]"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-base font-semibold text-[var(--foreground)] transition-colors hover:bg-[var(--surface-subtle)]"
               >
                 <svg
                   width="16"
@@ -302,14 +302,14 @@ export function HeroSection() {
             </div>
 
             {/* Assurance */}
-            <div className="flex flex-wrap gap-6 text-sm text-[#667085]">
+            <div className="flex flex-wrap gap-6 text-sm text-[var(--foreground-muted)]">
               <div className="flex items-center gap-2">
                 <svg
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#087A55"
+                  stroke="var(--primary)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -324,7 +324,7 @@ export function HeroSection() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#087A55"
+                  stroke="var(--primary)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -339,7 +339,7 @@ export function HeroSection() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#087A55"
+                  stroke="var(--primary)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -359,11 +359,11 @@ export function HeroSection() {
           >
             {/* Organic Decorative Shapes */}
             <div
-              className="absolute -left-8 -top-8 h-32 w-32 rounded-full bg-[#EAF7F0] opacity-60"
+              className="absolute -left-8 -top-8 h-32 w-32 rounded-full bg-[var(--primary-subtle)] opacity-60"
               aria-hidden="true"
             />
             <div
-              className="absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-[#EAF7F0] opacity-40"
+              className="absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-[var(--primary-subtle)] opacity-40"
               aria-hidden="true"
             />
 
@@ -373,12 +373,19 @@ export function HeroSection() {
               <AICoachCard />
             </div>
 
-            {/* Mobile Layout */}
-            <div className="flex gap-4 lg:hidden">
+            {/* Tablet Layout */}
+            <div className="hidden md:flex lg:hidden gap-4">
               <div className="flex-1">
                 <DashboardPreview />
               </div>
-              <div className="w-40">
+              <div className="w-44">
+                <MobilePreview />
+              </div>
+            </div>
+
+            {/* Mobile Layout - Just phone preview */}
+            <div className="md:hidden flex justify-center">
+              <div className="w-64">
                 <MobilePreview />
               </div>
             </div>
@@ -397,7 +404,7 @@ export function HeroSection() {
         >
           <path
             d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-            fill="#F5F7F5"
+            fill="var(--surface-subtle)"
           />
         </svg>
       </div>

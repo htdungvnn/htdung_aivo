@@ -81,23 +81,23 @@ export function EcosystemSection() {
     <section
       ref={sectionRef}
       id="ecosystem"
-      className="bg-[#F5F7F5] py-16 sm:py-20 lg:py-24"
+      className="bg-[var(--surface-subtle)] py-16 sm:py-20 lg:py-24"
       aria-labelledby="ecosystem-heading"
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center lg:mb-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#087A55]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--primary)]">
             Product Ecosystem
           </p>
           <h2
             id="ecosystem-heading"
-            className="mb-4 text-3xl font-bold text-[#101828] sm:text-4xl lg:text-5xl"
+            className="mb-4 text-3xl font-bold text-[var(--foreground)] sm:text-4xl lg:text-5xl"
           >
             Build a Healthier, More{" "}
-            <span className="text-[#087A55]">Consistent Life</span>
+            <span className="text-[var(--primary)]">Consistent Life</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-[#667085]">
+          <p className="mx-auto max-w-2xl text-lg text-[var(--foreground-muted)]">
             Workout planning, nutrition tracking, progress insights, and AI
             guidance designed to work together.
           </p>
@@ -108,7 +108,7 @@ export function EcosystemSection() {
           {ecosystemCards.map((card, index) => (
             <article
               key={card.id}
-              className={`group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm transition-all duration-500 hover:shadow-xl ${
+              className={`group relative overflow-hidden rounded-2xl bg-[var(--surface)] p-8 shadow-sm transition-all duration-500 hover:shadow-xl ${
                 isVisible
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0"
@@ -119,28 +119,28 @@ export function EcosystemSection() {
             >
               {/* Decorative Element */}
               <div
-                className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-[#EAF7F0] opacity-60 transition-transform duration-500 group-hover:scale-110"
+                className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-[var(--primary-subtle)] opacity-60 transition-transform duration-500 group-hover:scale-110"
                 aria-hidden="true"
               />
 
               {/* Icon */}
-              <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-[#087A55] text-white">
+              <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
                 {icons[card.icon]}
               </div>
 
               {/* Title */}
-              <h3 className="relative mb-3 text-2xl font-bold text-[#101828]">
+              <h3 className="relative mb-3 text-2xl font-bold text-[var(--foreground)]">
                 {card.title}
               </h3>
 
               {/* Description */}
-              <p className="relative text-[#667085]">{card.description}</p>
+              <p className="relative text-[var(--foreground-muted)]">{card.description}</p>
 
               {/* Arrow Link */}
               <div className="relative mt-6">
                 <a
                   href={`#${card.id}`}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-[#087A55] transition-colors hover:gap-3"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[var(--primary)] transition-colors hover:gap-3"
                 >
                   Learn more
                   <svg

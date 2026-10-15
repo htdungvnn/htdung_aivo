@@ -27,7 +27,7 @@ export function FinalCTA() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#087A55] py-16 sm:py-20 lg:py-24"
+      className="bg-[var(--primary)] py-16 sm:py-20 lg:py-24"
       aria-labelledby="cta-heading"
     >
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
@@ -54,7 +54,7 @@ export function FinalCTA() {
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-[#087A55] transition-all hover:bg-[#EAF7F0] hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-[var(--primary)] transition-all hover:bg-[var(--primary-subtle)] hover:shadow-lg"
             >
               Start Your Journey
               <svg

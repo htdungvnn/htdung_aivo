@@ -5,14 +5,14 @@ import { useColorScheme, StyleSheet } from 'react-native';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
 
-import { Spacing } from '@/constants/theme';
+import { spacing } from '@/constants/theme';
 
 export function WebBadge() {
   const scheme = useColorScheme();
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="code" themeColor="textSecondary" style={styles.versionText}>
+      <ThemedText type="code" themeColor="foregroundMuted" style={styles.versionText}>
         v{version}
       </ThemedText>
       <Image
@@ -29,9 +29,9 @@ export function WebBadge() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacing.five,
+    padding: spacing.five,
     alignItems: 'center',
-    gap: Spacing.two,
+    gap: spacing.two,
   },
   versionText: {
     textAlign: 'center',

@@ -12,11 +12,11 @@ import { SiteFooter } from "./site-footer";
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#FCFDFB]">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Skip to main content link for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded-md focus:bg-[#087A55] focus:px-4 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded-md focus:bg-[var(--primary)] focus:px-4 focus:py-2 focus:text-white"
       >
         Skip to main content
       </a>

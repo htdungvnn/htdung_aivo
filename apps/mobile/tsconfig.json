@@ -8,6 +8,12 @@
       ],
       "@/assets/*": [
         "./assets/*"
+      ],
+      "@aivo/i18n": [
+        "../../packages/i18n/src"
+      ],
+      "@aivo/i18n/*": [
+        "../../packages/i18n/src/*"
       ]
     }
   },

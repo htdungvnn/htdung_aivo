@@ -83,17 +83,17 @@ export function PricingSection() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center lg:mb-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#087A55]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--primary)]">
             Pricing
           </p>
           <h2
             id="pricing-heading"
-            className="mb-4 text-3xl font-bold text-[#101828] sm:text-4xl lg:text-5xl"
+            className="mb-4 text-3xl font-bold text-[var(--foreground)] sm:text-4xl lg:text-5xl"
           >
             Simple, transparent{" "}
-            <span className="text-[#087A55]">pricing</span>
+            <span className="text-[var(--primary)]">pricing</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-[#667085]">
+          <p className="mx-auto max-w-2xl text-lg text-[var(--foreground-muted)]">
             Start free, upgrade when you&apos;re ready. No hidden fees, cancel anytime.
           </p>
         </div>
@@ -109,28 +109,28 @@ export function PricingSection() {
               key={plan.name}
               className={`relative rounded-2xl p-6 lg:p-8 ${
                 plan.highlighted
-                  ? "border-2 border-[#087A55] bg-white shadow-xl"
-                  : "border border-[#E5EAE7] bg-white"
+                  ? "border-2 border-[var(--primary)] bg-[var(--surface)] shadow-xl"
+                  : "border border-[var(--border)] bg-[var(--surface)]"
               }`}
             >
               {plan.highlighted && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#087A55] px-4 py-1 text-sm font-semibold text-white">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[var(--primary)] px-4 py-1 text-sm font-semibold text-white">
                   Most Popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="mb-2 text-xl font-bold text-[#101828]">
+                <h3 className="mb-2 text-xl font-bold text-[var(--foreground)]">
                   {plan.name}
                 </h3>
-                <p className="text-sm text-[#667085]">{plan.description}</p>
+                <p className="text-sm text-[var(--foreground-muted)]">{plan.description}</p>
               </div>
 
               <div className="mb-6">
-                <span className="text-4xl font-bold text-[#101828]">
+                <span className="text-4xl font-bold text-[var(--foreground)]">
                   {plan.price}
                 </span>
-                <span className="text-[#667085]">{plan.period}</span>
+                <span className="text-[var(--foreground-muted)]">{plan.period}</span>
               </div>
 
               <ul className="mb-8 space-y-3">
@@ -141,7 +141,7 @@ export function PricingSection() {
                       height="20"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="#087A55"
+                      stroke="var(--primary)"
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -149,7 +149,7 @@ export function PricingSection() {
                     >
                       <path d="M20 6 9 17l-5-5" />
                     </svg>
-                    <span className="text-sm text-[#667085]">{feature}</span>
+                    <span className="text-sm text-[var(--foreground-muted)]">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -158,8 +158,8 @@ export function PricingSection() {
                 href="/signup"
                 className={`block w-full rounded-xl py-3 text-center text-base font-semibold transition-colors ${
                   plan.highlighted
-                    ? "bg-[#087A55] text-white hover:bg-[#066847]"
-                    : "border border-[#E5EAE7] text-[#101828] hover:bg-[#F5F7F5]"
+                    ? "bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)]"
+                    : "border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--surface-subtle)]"
                 }`}
               >
                 {plan.cta}
@@ -169,7 +169,7 @@ export function PricingSection() {
         </div>
 
         {/* Money Back Guarantee */}
-        <p className="mt-8 text-center text-sm text-[#667085]">
+        <p className="mt-8 text-center text-sm text-[var(--foreground-muted)]">
           <svg
             className="mr-1 inline-block h-4 w-4"
             viewBox="0 0 24 24"

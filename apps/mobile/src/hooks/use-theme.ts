@@ -1,14 +1,17 @@
 /**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
+ * useTheme hook - provides theme colors based on preference
+ * Uses semantic tokens from theme constants
  */
 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { lightColors, darkColors } from '@/constants/theme';
+import { useThemePreference } from './use-theme-preference';
 
+/**
+ * Get the current theme colors
+ * Automatically follows system preference when set to 'system'
+ */
 export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
-
-  return Colors[theme];
+  const { resolvedTheme } = useThemePreference();
+  const colors = resolvedTheme === 'dark' ? darkColors : lightColors;
+  return colors;
 }
