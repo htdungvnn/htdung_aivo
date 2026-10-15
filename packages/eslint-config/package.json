@@ -8,6 +8,10 @@
     "./next-js": "./next.js",
     "./react-internal": "./react-internal.js"
   },
+  "scripts": {
+    "lint": "echo 'No lint for config package' && exit 0",
+    "check-types": "echo 'No typecheck for config package' && exit 0"
+  },
   "devDependencies": {
     "@babel/core": "8.0.1",
     "@babel/eslint-parser": "8.0.1",
