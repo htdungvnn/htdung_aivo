@@ -19,6 +19,7 @@ import {
   safeReturnUrlSchema,
 } from "./auth.schemas";
 import type { Platform } from "./auth.types";
+import type { CloudflareBindings } from "../../index";
 
 // Session configuration
 const SESSION_COOKIE_NAME = "aivo_session";
@@ -73,7 +74,9 @@ authRoutes.post("/email/request-otp", async (c) => {
       userAgent: c.req.header("user-agent"),
     };
 
-    const result = await createOtpChallenge(email, metadata);
+    // Get env for Cloudflare Email binding
+    const env = c.env as CloudflareBindings;
+    const result = await createOtpChallenge(email, metadata, env);
 
     return c.json({
       challengeId: result.challengeId,
@@ -217,7 +220,8 @@ authRoutes.get("/oauth/:provider/start", async (c) => {
   } else {
     const clientId = process.env.FACEBOOK_APP_ID;
     const redirectUri = `${process.env.API_BASE_URL}/v1/auth/oauth/facebook/callback`;
-    const scope = encodeURIComponent("email,public_profile");
+    // Note: email scope requires App Review. For dev, use public_profile only.
+    const scope = encodeURIComponent("public_profile");
     authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=${scope}`;
   }
 

@@ -109,17 +109,17 @@ export function FeatureGrid() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center lg:mb-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#087A55]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--primary)]">
             Core Features
           </p>
           <h2
             id="features-heading"
-            className="mb-4 text-3xl font-bold text-[#101828] sm:text-4xl lg:text-5xl"
+            className="mb-4 text-3xl font-bold text-[var(--foreground)] sm:text-4xl lg:text-5xl"
           >
             Everything you need to{" "}
-            <span className="text-[#087A55]">succeed</span>
+            <span className="text-[var(--primary)]">succeed</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-[#667085]">
+          <p className="mx-auto max-w-2xl text-lg text-[var(--foreground-muted)]">
             A complete fitness platform designed to work with you, not against
             you.
           </p>
@@ -130,7 +130,7 @@ export function FeatureGrid() {
           {featureCards.map((feature, index) => (
             <article
               key={feature.id}
-              className={`group rounded-2xl border border-[#E5EAE7] bg-white p-6 transition-all duration-300 hover:border-[#087A55]/20 hover:shadow-lg ${
+              className={`group rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 transition-all duration-300 hover:border-[var(--primary)]/20 hover:shadow-lg ${
                 isVisible
                   ? "translate-y-0 opacity-100"
                   : "translate-y-8 opacity-0"
@@ -140,17 +140,17 @@ export function FeatureGrid() {
               }}
             >
               {/* Icon */}
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#EAF7F0] text-[#087A55] transition-colors group-hover:bg-[#087A55] group-hover:text-white">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[var(--primary-subtle)] text-[var(--primary)] transition-colors group-hover:bg-[var(--primary)] group-hover:text-white">
                 {icons[feature.icon]}
               </div>
 
               {/* Title */}
-              <h3 className="mb-3 text-xl font-semibold text-[#101828]">
+              <h3 className="mb-3 text-xl font-semibold text-[var(--foreground)]">
                 {feature.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[#667085]">{feature.description}</p>
+              <p className="text-[var(--foreground-muted)]">{feature.description}</p>
             </article>
           ))}
         </div>

@@ -4,7 +4,7 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#101828] text-white" aria-labelledby="footer-heading">
+    <footer className="bg-[var(--foreground)] text-white" aria-labelledby="footer-heading">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 lg:py-16">
@@ -25,12 +25,12 @@ export function SiteFooter() {
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
                 >
-                  <rect width="32" height="32" rx="8" fill="#087A55" />
+                  <rect width="32" height="32" rx="8" fill="var(--primary)" />
                   <path
                     d="M8 16C8 11.5817 11.5817 8 16 8V8C20.4183 8 24 11.5817 24 16V24H16C11.5817 24 8 20.4183 8 16V16Z"
                     fill="white"
                   />
-                  <circle cx="16" cy="16" r="4" fill="#087A55" />
+                  <circle cx="16" cy="16" r="4" fill="var(--primary)" />
                 </svg>
                 AIVO
               </a>

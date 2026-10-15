@@ -13,6 +13,7 @@ import {
 } from "./auth.service";
 import { sendOtpEmail } from "../../lib/email.service";
 import type { Platform, RequestMetadata, VerificationChallenge } from "./auth.types";
+import type { CloudflareBindings } from "../../index";
 
 // Configuration constants
 const OTP_LENGTH = 6;
@@ -33,7 +34,8 @@ const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
  */
 export async function createOtpChallenge(
   email: string,
-  metadata: RequestMetadata = {}
+  metadata: RequestMetadata = {},
+  env?: CloudflareBindings
 ): Promise<{
   challengeId: string;
   expiresAt: Date;
@@ -86,8 +88,8 @@ export async function createOtpChallenge(
   // Update rate limit
   updateRateLimit(email);
 
-  // Send OTP email
-  const emailResult = await sendOtpEmail(email, code);
+  // Send OTP email via Cloudflare Email Service
+  const emailResult = await sendOtpEmail(email, code, env);
   if (!emailResult.success) {
     console.error(`[OTP] Failed to send email to ${email}:`, emailResult.error);
     // Continue anyway - don't block auth flow for email delivery issues

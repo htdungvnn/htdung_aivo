@@ -92,17 +92,17 @@ export function HowItWorks() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center lg:mb-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#087A55]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--primary)]">
             How It Works
           </p>
           <h2
             id="how-it-works-heading"
-            className="mb-4 text-3xl font-bold text-[#101828] sm:text-4xl lg:text-5xl"
+            className="mb-4 text-3xl font-bold text-[var(--foreground)] sm:text-4xl lg:text-5xl"
           >
             Start seeing results{" "}
-            <span className="text-[#087A55]">in weeks</span>
+            <span className="text-[var(--primary)]">in weeks</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-[#667085]">
+          <p className="mx-auto max-w-2xl text-lg text-[var(--foreground-muted)]">
             Three simple steps to transform your fitness journey.
           </p>
         </div>
@@ -111,7 +111,7 @@ export function HowItWorks() {
         <div className="relative">
           {/* Desktop Connector Line */}
           <div
-            className="absolute left-1/2 top-24 hidden h-0.5 w-2/3 -translate-x-1/2 bg-[#E5EAE7] lg:block"
+            className="absolute left-1/2 top-24 hidden h-0.5 w-2/3 -translate-x-1/2 bg-[var(--border)] lg:block"
             aria-hidden="true"
           />
 
@@ -129,22 +129,22 @@ export function HowItWorks() {
                 }}
               >
                 {/* Step Number Circle */}
-                <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#087A55] text-white shadow-lg shadow-[#087A55]/20">
+                <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary)] text-white shadow-lg">
                   <span className="text-xl font-bold">{step.number}</span>
                 </div>
 
                 {/* Icon */}
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#EAF7F0] text-[#087A55]">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[var(--primary-subtle)] text-[var(--primary)]">
                   {icons[index]}
                 </div>
 
                 {/* Title */}
-                <h3 className="mb-3 text-xl font-semibold text-[#101828]">
+                <h3 className="mb-3 text-xl font-semibold text-[var(--foreground)]">
                   {step.title}
                 </h3>
 
                 {/* Description */}
-                <p className="max-w-xs text-[#667085]">{step.description}</p>
+                <p className="max-w-xs text-[var(--foreground-muted)]">{step.description}</p>
               </article>
             ))}
           </div>

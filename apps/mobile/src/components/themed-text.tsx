@@ -1,11 +1,10 @@
 import { Platform, StyleSheet, Text, type TextProps } from 'react-native';
 
-import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export type ThemedTextProps = TextProps & {
-  type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code';
-  themeColor?: ThemeColor;
+  type?: 'default' | 'title' | 'small' | 'smallBold' | 'subtitle' | 'link' | 'linkPrimary' | 'code' | 'bodyStrong' | 'caption';
+  themeColor?: 'foreground' | 'foregroundMuted' | 'foregroundSubtle' | 'primary' | 'danger' | 'warning' | 'success' | 'info';
 };
 
 export function ThemedText({ style, type = 'default', themeColor, ...rest }: ThemedTextProps) {
@@ -14,7 +13,7 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
   return (
     <Text
       style={[
-        { color: theme[themeColor ?? 'text'] },
+        { color: theme[themeColor ?? 'foreground'] },
         type === 'default' && styles.default,
         type === 'title' && styles.title,
         type === 'small' && styles.small,
@@ -23,6 +22,8 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
         type === 'link' && styles.link,
         type === 'linkPrimary' && styles.linkPrimary,
         type === 'code' && styles.code,
+        type === 'bodyStrong' && styles.bodyStrong,
+        type === 'caption' && styles.caption,
         style,
       ]}
       {...rest}
@@ -66,8 +67,18 @@ const styles = StyleSheet.create({
     color: '#3c87f7',
   },
   code: {
-    fontFamily: Fonts.mono,
+    fontFamily: Platform.OS === 'web' ? 'monospace' : 'monospace',
     fontWeight: Platform.select({ android: 700 }) ?? 500,
     fontSize: 12,
+  },
+  bodyStrong: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: 600,
+  },
+  caption: {
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: 400,
   },
 });

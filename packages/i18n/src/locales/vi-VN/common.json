@@ -1,0 +1,33 @@
+{
+  "actions": {
+    "continue": "Tiếp tục",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "retry": "Thử lại",
+    "close": "Đóng",
+    "edit": "Chỉnh sửa",
+    "done": "Hoàn tất",
+    "submit": "Gửi",
+    "skip": "Bỏ qua",
+    "delete": "Xóa",
+    "confirm": "Xác nhận"
+  },
+  "status": {
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "saved": "Đã lưu",
+    "offline": "Bạn đang ngoại tuyến",
+    "error": "Đã xảy ra lỗi",
+    "success": "Thành công"
+  },
+  "common": {
+    "today": "Hôm nay",
+    "yesterday": "Hôm qua",
+    "tomorrow": "Ngày mai",
+    "viewAll": "Xem tất cả",
+    "seeMore": "Xem thêm",
+    "showLess": "Thu gọn"
+  }
+}

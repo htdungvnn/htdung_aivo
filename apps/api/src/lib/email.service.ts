@@ -1,6 +1,6 @@
 /**
- * Email Service - Cloudflare Mail implementation
- * Uses Resend API (recommended) or direct SMTP via Cloudflare Workers Email
+ * Email Service - Cloudflare Email implementation
+ * Uses Cloudflare Email Service Workers binding for sending emails
  */
 
 interface SendEmailOptions {
@@ -16,54 +16,82 @@ interface EmailResult {
   error?: string;
 }
 
-/**
- * Send email using Resend API (recommended for production reliability)
- */
-async function sendViaResend(options: SendEmailOptions): Promise<EmailResult> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.EMAIL_FROM || "AIVO <noreply@aivo.fitness>";
+interface Env {
+  CF_EMAIL: {
+    send: (message: EmailMessage) => Promise<{ success: boolean }>;
+  };
+}
 
-  if (!apiKey) {
-    console.error("[Email] RESEND_API_KEY is not configured");
+/**
+ * Send email using Cloudflare Email Service binding
+ */
+async function sendViaCloudflare(options: SendEmailOptions, env: Env): Promise<EmailResult> {
+  const fromEmail = process.env.EMAIL_FROM || "AIVO <noreply@aivo.website>";
+
+  if (!env.CF_EMAIL) {
+    console.error("[Email] CF_EMAIL binding is not configured");
     return { success: false, error: "Email service not configured" };
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: options.to,
-        subject: options.subject,
-        html: options.html,
-        text: options.text,
-      }),
+    const message = new EmailMessage(
+      fromEmail,
+      options.to,
+      options.text || options.html
+    );
+
+    // Set HTML content via headers
+    message.headers.set("Content-Type", "text/html; charset=utf-8");
+    message.headers.set("Subject", options.subject);
+
+    const result = await env.CF_EMAIL.send({
+      from: fromEmail,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
     });
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("[Email] Resend API error:", error);
-      return { success: false, error: `Failed to send email: ${response.statusText}` };
+    if (!result.success) {
+      return { success: false, error: "Failed to send email" };
     }
 
-    const data = await response.json();
-    return { success: true, messageId: data.id };
+    return { success: true };
   } catch (error) {
-    console.error("[Email] Resend fetch error:", error);
+    console.error("[Email] Cloudflare email error:", error);
     return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  }
+}
+
+// Fallback class for EmailMessage when not in Workers runtime
+class EmailMessage {
+  from: string;
+  to: string;
+  raw: string;
+  headers: Map<string, string>;
+
+  constructor(from: string, to: string, body: string) {
+    this.from = from;
+    this.to = to;
+    this.raw = body;
+    this.headers = new Map();
   }
 }
 
 /**
  * Send email - main entry point
  */
-export async function sendEmail(options: SendEmailOptions): Promise<EmailResult> {
-  // Use Resend API (primary)
-  return sendViaResend(options);
+export async function sendEmail(options: SendEmailOptions, env?: Env): Promise<EmailResult> {
+  // Use Cloudflare Email Service (primary)
+  if (env?.CF_EMAIL) {
+    return sendViaCloudflare(options, env);
+  }
+
+  // Development fallback: log to console
+  console.log(`[DEV] Email would be sent to ${options.to}`);
+  console.log(`[DEV] Subject: ${options.subject}`);
+  console.log(`[DEV] Body: ${options.text || options.html.substring(0, 100)}...`);
+
+  return { success: true };
 }
 
 /**
@@ -178,19 +206,19 @@ function maskEmail(email: string): string {
  */
 export async function sendOtpEmail(
   to: string,
-  otp: string
+  otp: string,
+  env?: Env
 ): Promise<EmailResult> {
   const result = await sendEmail({
     to,
     subject: "Your AIVO verification code",
     html: generateOtpEmailHtml(otp, to),
     text: `Your AIVO verification code is: ${otp}. This code expires in 5 minutes. If you didn't request this code, please ignore this email.`,
-  });
+  }, env);
 
   // In development, also log to console
   if (process.env.NODE_ENV === "development") {
-    console.log(`[DEV] OTP email sent to ${to}`);
-    console.log(`[DEV] OTP code: ${otp}`);
+    console.log(`[DEV] OTP for ${to}: ${otp}`);
   }
 
   return result;

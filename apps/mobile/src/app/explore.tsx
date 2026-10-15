@@ -8,14 +8,14 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Collapsible } from '@/components/ui/collapsible';
 import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { BottomTabInset, MaxContentWidth, spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function TabTwoScreen() {
   const safeAreaInsets = useSafeAreaInsets();
   const insets = {
     ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
+    bottom: safeAreaInsets.bottom + BottomTabInset + spacing.three,
   };
   const theme = useTheme();
 
@@ -27,8 +27,8 @@ export default function TabTwoScreen() {
       paddingBottom: insets.bottom,
     },
     web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four,
+      paddingTop: spacing.six,
+      paddingBottom: spacing.four,
     },
   });
 
@@ -40,16 +40,16 @@ export default function TabTwoScreen() {
       <ThemedView style={styles.container}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
+          <ThemedText style={styles.centerText} themeColor="foregroundMuted">
             This starter app includes example{'\n'}code to help you get started.
           </ThemedText>
 
           <ExternalLink href="https://docs.expo.dev" asChild>
             <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
+              <ThemedView type="surfaceSubtle" style={styles.linkButton}>
                 <ThemedText type="link">Expo documentation</ThemedText>
                 <SymbolView
-                  tintColor={theme.text}
+                  tintColor={theme.foreground}
                   name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
                   size={12}
                 />
@@ -74,7 +74,7 @@ export default function TabTwoScreen() {
           </Collapsible>
 
           <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
+            <ThemedView type="surfaceSubtle" style={styles.collapsibleContent}>
               <ThemedText type="small">
                 You can open this project on Android, iOS, and the web. To open the web version,
                 press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
@@ -138,10 +138,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   titleContainer: {
-    gap: Spacing.three,
+    gap: spacing.three,
     alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
+    paddingHorizontal: spacing.four,
+    paddingVertical: spacing.six,
   },
   centerText: {
     textAlign: 'center',
@@ -151,17 +151,17 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
+    paddingHorizontal: spacing.four,
+    paddingVertical: spacing.two,
+    borderRadius: spacing.five,
     justifyContent: 'center',
-    gap: Spacing.one,
+    gap: spacing.one,
     alignItems: 'center',
   },
   sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
+    gap: spacing.five,
+    paddingHorizontal: spacing.four,
+    paddingTop: spacing.three,
   },
   collapsibleContent: {
     alignItems: 'center',
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
   imageTutorial: {
     width: '100%',
     aspectRatio: 296 / 171,
-    borderRadius: Spacing.three,
-    marginTop: Spacing.two,
+    borderRadius: spacing.three,
+    marginTop: spacing.two,
   },
   imageReact: {
     width: 100,

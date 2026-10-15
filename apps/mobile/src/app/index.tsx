@@ -1,2 +1,5 @@
-// Root index redirects to public welcome screen
-export { default } from "./(public)/welcome";
+import { Redirect } from "expo-router";
+
+export default function Index() {
+  return <Redirect href="/(auth)/login" />;
+}

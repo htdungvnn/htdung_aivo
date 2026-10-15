@@ -8,6 +8,7 @@ function TabIcon({ name, focused }: { name: string; focused: boolean }) {
     workouts: "💪",
     nutrition: "🥗",
     coach: "🤖",
+    settings: "⚙️",
   };
 
   return (
@@ -63,6 +64,13 @@ export default function TabsLayout() {
         options={{
           title: "Coach",
           tabBarIcon: ({ focused }) => <TabIcon name="coach" focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ focused }) => <TabIcon name="settings" focused={focused} />,
         }}
       />
     </Tabs>

@@ -48,17 +48,17 @@ export function FAQSection() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-12 text-center lg:mb-16">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[#087A55]">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--primary)]">
             FAQ
           </p>
           <h2
             id="faq-heading"
-            className="mb-4 text-3xl font-bold text-[#101828] sm:text-4xl lg:text-5xl"
+            className="mb-4 text-3xl font-bold text-[var(--foreground)] sm:text-4xl lg:text-5xl"
           >
             Frequently asked{" "}
-            <span className="text-[#087A55]">questions</span>
+            <span className="text-[var(--primary)]">questions</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-[#667085]">
+          <p className="mx-auto max-w-2xl text-lg text-[var(--foreground-muted)]">
             Find answers to common questions about AIVO.
           </p>
         </div>
@@ -80,13 +80,13 @@ export function FAQSection() {
                     aria-controls={`faq-${item.id}`}
                     id={`faq-btn-${item.id}`}
                     onClick={() => toggleItem(item.id)}
-                    className="flex w-full items-center justify-between rounded-xl border border-[#E5EAE7] bg-white p-5 text-left transition-all hover:border-[#087A55]/30 hover:shadow-sm"
+                    className="flex w-full items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-left transition-all hover:border-[var(--primary)]/30 hover:shadow-sm"
                   >
-                    <span className="pr-4 text-base font-medium text-[#101828] sm:text-lg">
+                    <span className="pr-4 text-base font-medium text-[var(--foreground)] sm:text-lg">
                       {item.question}
                     </span>
                     <span
-                      className={`ml-4 flex-shrink-0 rounded-full bg-[#F5F7F5] p-2 transition-transform duration-200 ${
+                      className={`ml-4 flex-shrink-0 rounded-full bg-[var(--surface-subtle)] p-2 transition-transform duration-200 ${
                         isOpen ? "rotate-180" : ""
                       }`}
                       aria-hidden="true"
@@ -96,7 +96,7 @@ export function FAQSection() {
                         height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#667085"
+                        stroke="var(--foreground-muted)"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -113,8 +113,8 @@ export function FAQSection() {
                   hidden={!isOpen}
                   className="overflow-hidden"
                 >
-                  <div className="rounded-b-xl border-x border-b border-[#E5EAE7] bg-white px-5 pb-5 pt-2">
-                    <p className="text-[#667085]">{item.answer}</p>
+                  <div className="rounded-b-xl border-x border-b border-[var(--border)] bg-[var(--surface)] px-5 pb-5 pt-2">
+                    <p className="text-[var(--foreground-muted)]">{item.answer}</p>
                   </div>
                 </div>
               </article>
@@ -124,7 +124,7 @@ export function FAQSection() {
 
         {/* Medical Disclaimer */}
         <div className="mt-12 text-center">
-          <p className="mx-auto max-w-2xl text-sm text-[#667085]">
+          <p className="mx-auto max-w-2xl text-sm text-[var(--foreground-muted)]">
             AIVO provides general fitness and wellness support. It is not a
             substitute for qualified medical advice, diagnosis, or treatment.
             Always consult with healthcare professionals for medical concerns.

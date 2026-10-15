@@ -1,51 +1,67 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
-import { useEffect, useState } from 'react';
-
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-import { authClient } from '@/features/auth/services';
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { authClient } from "@/features/auth/services";
+import { ThemeProvider } from "@/contexts/theme-context";
+import { LocaleProvider } from "@/localization/locale-provider";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Check session on app start
-    const checkSession = async () => {
+    const init = async () => {
       try {
-        const user = await authClient.getCurrentUser();
-        if (user) {
-          // User has valid session, show app tabs
-          await SplashScreen.hideAsync();
-        } else {
-          // No session, redirect to welcome
-          await SplashScreen.hideAsync();
-        }
+        await authClient.getCurrentUser();
       } catch {
-        // Error checking session, go to welcome
-        await SplashScreen.hideAsync();
+        // Session check complete
       } finally {
+        await SplashScreen.hideAsync();
         setIsReady(true);
       }
     };
-
-    checkSession();
+    init();
   }, []);
 
-  // Don't render tabs until session is checked
-  // The router will handle redirecting based on auth state
   if (!isReady) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <LocaleProvider>
+      <ThemeProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          {/* Public routes */}
+          <Stack.Screen name="(public)/welcome" />
+          
+          {/* Auth routes */}
+          <Stack.Screen
+            name="(auth)/login"
+            options={{ animation: "slide_from_right" }}
+          />
+          <Stack.Screen
+            name="(auth)/verify-email"
+            options={{ animation: "slide_from_right" }}
+          />
+          
+          {/* App tabs - only accessible after auth */}
+          <Stack.Screen
+            name="(tabs)"
+            options={{ animation: "fade" }}
+          />
+
+          {/* Catch-all for unmatched routes */}
+          <Stack.Screen
+            name="+not-found"
+            options={{ title: "Oops!" }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </LocaleProvider>
   );
 }
