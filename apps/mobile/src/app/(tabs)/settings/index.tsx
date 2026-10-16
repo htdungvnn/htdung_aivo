@@ -3,7 +3,7 @@
  * Main settings hub for the app with quick theme/language toggles
  */
 
-import { Stack } from "expo-router";
+import { Stack, Link } from "expo-router";
 import { StyleSheet, View, Pressable, ScrollView } from "react-native";
 import { SymbolView } from "expo-symbols";
 
@@ -33,6 +33,13 @@ export default function SettingsScreen() {
   const localeOptions = ["vi-VN", "en"] as const;
 
   const settingsItems = [
+    {
+      icon: "person.fill",
+      iconColor: theme.primary,
+      title: "Hồ sơ",
+      subtitle: "Mục tiêu, thể chất, thiết bị",
+      href: "/(tabs)/settings/profile" as any,
+    },
     {
       icon: "bell.fill",
       iconColor: theme.warning,
@@ -164,26 +171,54 @@ export default function SettingsScreen() {
                   opacity: pressed ? 0.7 : 1,
                 },
               ]}
-              onPress={item.onPress}
+              onPress={item.href ? undefined : item.onPress}
+              {...(item.href ? { asChild: true } : {})}
             >
-              <View style={[styles.iconContainer, { backgroundColor: item.iconColor + "15" }]}>
-                <SymbolView
-                  name={item.icon as any}
-                  size={20}
-                  tintColor={item.iconColor}
-                />
-              </View>
-              <View style={styles.settingContent}>
-                <ThemedText type="smallBold">{item.title}</ThemedText>
-                <ThemedText themeColor="foregroundMuted" type="small">
-                  {item.subtitle}
-                </ThemedText>
-              </View>
-              <SymbolView
-                name="chevron.right"
-                size={16}
-                tintColor={theme.foregroundMuted}
-              />
+              {item.href ? (
+                <Link href={item.href}>
+                  <View style={[styles.settingItemInner, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                    <View style={[styles.iconContainer, { backgroundColor: item.iconColor + "15" }]}>
+                      <SymbolView
+                        name={item.icon as any}
+                        size={20}
+                        tintColor={item.iconColor}
+                      />
+                    </View>
+                    <View style={styles.settingContent}>
+                      <ThemedText type="smallBold">{item.title}</ThemedText>
+                      <ThemedText themeColor="foregroundMuted" type="small">
+                        {item.subtitle}
+                      </ThemedText>
+                    </View>
+                    <SymbolView
+                      name="chevron.right"
+                      size={16}
+                      tintColor={theme.foregroundMuted}
+                    />
+                  </View>
+                </Link>
+              ) : (
+                <>
+                  <View style={[styles.iconContainer, { backgroundColor: item.iconColor + "15" }]}>
+                    <SymbolView
+                      name={item.icon as any}
+                      size={20}
+                      tintColor={item.iconColor}
+                    />
+                  </View>
+                  <View style={styles.settingContent}>
+                    <ThemedText type="smallBold">{item.title}</ThemedText>
+                    <ThemedText themeColor="foregroundMuted" type="small">
+                      {item.subtitle}
+                    </ThemedText>
+                  </View>
+                  <SymbolView
+                    name="chevron.right"
+                    size={16}
+                    tintColor={theme.foregroundMuted}
+                  />
+                </>
+              )}
             </Pressable>
           ))}
         </View>
@@ -238,6 +273,11 @@ const styles = StyleSheet.create({
     padding: spacing.four,
     borderRadius: 12,
     borderWidth: 1,
+    gap: spacing.four,
+  },
+  settingItemInner: {
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacing.four,
   },
   iconContainer: {

@@ -13,7 +13,11 @@
     "types": [
         "./worker-configuration.d.ts",
         "node"
-    ]
+    ],
+    "paths": {
+      "@aivo/contracts": ["../../packages/contracts/src"],
+      "@aivo/contracts/*": ["../../packages/contracts/src/*"]
+    }
   },
   "include": [
     "src/**/*.ts",

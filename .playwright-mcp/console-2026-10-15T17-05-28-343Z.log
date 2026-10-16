@@ -1,0 +1,15 @@
+[   37268ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[   37427ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:15804
+[   37547ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/v1/auth/me:0
+[   37547ms] [ERROR] Failed to fetch user: TypeError: Failed to fetch
+    at AuthClient.getCurrentUser (http://localhost:3000/lib/auth/auth-client.ts:63:26)
+    at http://localhost:3000/components/auth/auth-context.tsx:15:41
+    at checkSession (http://localhost:3000/components/auth/auth-context.tsx:36:10)
+    at http://localhost:3000/components/auth/auth-context.tsx:39:3
+    at Object.react_stack_bottom_frame (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:14178:13)
+    at runWithFiberInDEV (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:944:66)
+    at commitHookEffectListMount (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:6901:153)
+    at commitHookPassiveMountEffects (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:6936:55)
+    at commitPassiveMountOnFiber (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:8313:22)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/node_modules/.vite/deps/react-dom_client.js?v=e74d50c6:8300:313) @ http://localhost:3000/@vite/client:298
+[   40603ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3000/@vite/client:1030

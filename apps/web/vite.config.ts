@@ -26,11 +26,11 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        replacement: path.resolve(__dirname, "components"),
+        replacement: path.resolve(__dirname, "src/components"),
         find: "@/components",
       },
       {
-        replacement: path.resolve(__dirname, "lib"),
+        replacement: path.resolve(__dirname, "src/lib"),
         find: "@/lib",
       },
       {
