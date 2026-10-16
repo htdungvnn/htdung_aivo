@@ -50,7 +50,7 @@ export default function EquipmentScreen() {
     try {
       await saveStep("equipment", { workoutLocations: locations, equipmentIds: equipment });
       router.push("/(onboarding)/schedule" as any);
-    } catch (e) { setError("Failed to save"); } finally { setIsSubmitting(false); }
+    } catch { setError("Failed to save"); } finally { setIsSubmitting(false); }
   };
 
   return (

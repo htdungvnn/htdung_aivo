@@ -54,7 +54,7 @@ export default function ProfileScreen() {
         unitSystem,
       });
       router.push("/(onboarding)/activity" as any);
-    } catch (e) {
+    } catch {
       setErrors({ submit: "Failed to save" });
     } finally {
       setIsSubmitting(false);

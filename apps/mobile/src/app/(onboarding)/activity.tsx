@@ -37,7 +37,7 @@ export default function ActivityScreen() {
     try {
       await saveStep("activity", { activityLevel, experienceLevel });
       router.push("/(onboarding)/equipment" as any);
-    } catch (e) { setError("Failed to save"); } finally { setIsSubmitting(false); }
+    } catch { setError("Failed to save"); } finally { setIsSubmitting(false); }
   };
 
   return (

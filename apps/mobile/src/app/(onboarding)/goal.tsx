@@ -38,8 +38,8 @@ export default function GoalScreen() {
     try {
       await saveStep("goal", { primaryGoal: selectedGoal });
       router.push("/(onboarding)/profile" as any);
-    } catch (err) {
-      console.error("Failed to save goal:", err);
+    } catch (_err) {
+      console.error("Failed to save goal:", _err);
       setError("Failed to save. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -58,7 +58,7 @@ export default function GoalScreen() {
 
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={[styles.title, { color: theme.foreground }]}>
-          What's your main goal?
+          What&apos;s your main goal?
         </Text>
         <Text style={[styles.description, { color: theme.foregroundMuted }]}>
           AIVO will use this goal to create the right starting plan.

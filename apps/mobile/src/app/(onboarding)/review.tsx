@@ -41,9 +41,7 @@ export default function ReviewScreen() {
     try {
       await complete();
       router.replace("/(tabs)" as any);
-    } catch (e) {
-      setError("Failed to complete");
-    } finally {
+    } catch { setError("Failed to complete"); } finally {
       setIsSubmitting(false);
     }
   };
