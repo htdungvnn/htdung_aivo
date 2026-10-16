@@ -9,16 +9,15 @@ import { getCookie } from "hono/cookie";
 import { OnboardingService } from "./onboarding.service";
 import { OnboardingError } from "./onboarding.errors";
 import { saveStepRequestSchema, completeOnboardingRequestSchema } from "@aivo/contracts";
+import type { OnboardingStep } from "@aivo/contracts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Bindings = any;
-import type { OnboardingStep } from "@aivo/contracts";
 
 // Session configuration (must match auth.routes.ts)
 const SESSION_COOKIE_NAME = "aivo_session";
 
 // In-memory session store (shared with auth.routes.ts)
-// Import from auth.routes for production; here we use a reference to avoid circular deps
 declare module "hono" {
   interface ContextVariableMap {
     session: {

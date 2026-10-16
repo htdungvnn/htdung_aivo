@@ -14,11 +14,14 @@ importers:
       '@hono/swagger-ui':
         specifier: ^0.6.1
         version: 0.6.1(hono@4.13.13)
+      '@hono/zod-validator':
+        specifier: ^0.9.1
+        version: 0.9.1(hono@4.13.13)(zod@3.25.76)
       hono:
         specifier: ^4.13.13
         version: 4.13.13
       zod:
-        specifier: ^3.23.8
+        specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
       '@types/node':
@@ -252,6 +255,12 @@ packages:
     resolution: {integrity: sha512-sJTvldu1GPeEPfyeLG7gRj+W4vEuD+JDi+JjJ3TJs/DvMUtBLs0KJO5yokGegWWdy5qrbdnQGekbhgNRmPmYKQ==}
     peerDependencies:
       hono: '>=4.0.0'
+
+  '@hono/zod-validator@0.9.1':
+    resolution: {integrity: sha512-iiv6w0qrIc0arfvCtUqBWsvl4fXjzaTcQcCJTTtCnkawF9HHGE+KjEl0ox3gQJ6rKZEgE3mLExlQCF72M+mNuw==}
+    peerDependencies:
+      hono: '>=4.11.2'
+      zod: ^3.25.0 || ^4.0.0
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -1061,6 +1070,11 @@ snapshots:
   '@hono/swagger-ui@0.6.1(hono@4.13.13)':
     dependencies:
       hono: 4.13.13
+
+  '@hono/zod-validator@0.9.1(hono@4.13.13)(zod@3.25.76)':
+    dependencies:
+      hono: 4.13.13
+      zod: 3.25.76
 
   '@img/colour@1.1.0': {}
 
